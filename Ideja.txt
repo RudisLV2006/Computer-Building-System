@@ -1,0 +1,9 @@
+Datoru būvēšanas sistēma
+Sistēma ir tīmekļa platforma, kur lietotāji varēs salikt un salīdzināt datora
+komponentus, lai izveidotu sev datoru. Mājaslapa sniegs detaļu savienojamības
+plānu, ieteikumus, citu lietotāju saglabātas un publicētas datoru kompletācijas.
+Platformā bez ierobežojumiem jebkurš lietotājs spēs izveidot savu datoru, apskatīt
+citu lietotāju būves, izlasīt citu lietotāju komentārus un izveidot kontu. Savukārt, pēc
+konta izveides, lietotājam parādās iespēja saglabāt savu datoru, redigēt cita cilvēka
+veidotu, rakstīt komentārus un vērtēt komplektāciju vai detaļas.
+Projektā plānoju izmantot PHP, Laravel
