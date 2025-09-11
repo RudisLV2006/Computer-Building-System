@@ -2,3 +2,5 @@ i9-12900KF(LGA 1700)  =>  MSI B760 GAMING PLUS WIFI(ATX, ddr5, ) => G.SKILL Ripj
 CPU, MOBO, RAM, CASE, GPU, STORAGE
 
 
+Logic Concept Comuter case PORTOS (midi tower) => MSI B550-A PRO (ATX, ddr4, am4) => 5 5600 (am4) => Kingston Fury Beast => 4060 triple fan
+CASE, MOBO, CPU, RAM, GPU, STORAGE
