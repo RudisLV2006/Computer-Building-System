@@ -1,0 +1,4 @@
+i9-12900KF(LGA 1700)  =>  MSI B760 GAMING PLUS WIFI(ATX, ddr5, ) => G.SKILL Ripjaws S5() =>  darkFlash LEO Case(midi tower) =>  ? 5070()  => n.2  => ssd
+CPU, MOBO, RAM, CASE, GPU, STORAGE
+
+
