@@ -1,0 +1,22 @@
+Motherboard socket == cpu socket
+
+Case atbalstīts formfactor == Motherboard formfactor or Motherboard formfactor < case atbalstīts formfactor
+
+ATX   == Motherboard atx or atx  == microATX, ITX
+
+ITX < Micro-ATX < ATX < E-ATX  (kārtojums no mazāka līdz lielāka)
+
+GPU length <=  case maximum supported GPU length  (iespējams tikai atrakst amazon vai ražotāju veikalā)
+
+Motherboard RAM type == Memory module ram technology
+
+total_power_draw = cpu.tdp + gpu.tdp + motherboard.estimated_draw + ram.estimated_draw + hdd/ssd.tdp
+Kopējais power + 100 vai 150 < PSU power
+
+Motherboard supported channel == ram module count
+
+Cooler socket saderība jaiekļauj cpu socket
+Piem. cooler atbalsta (lga 1700, am4 un am5), tātad lga 1151 nederēs.
+
+cooler augstumam <= case maksimāli atļautam cooler augstumam
+
