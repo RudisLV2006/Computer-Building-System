@@ -1,0 +1,26 @@
+Processors (cpu):
+Ligzdas tips  (socket)
+TDP 
+Atbalstīts RAM tipi un ātrums
+Max atmiņu atbalstīts skaits
+
+MOBO
+Ligzdas (socket)
+Chipsets
+Ram atbalsta tips, ātrums, modulu skaits
+Form factor
+Power connectors
+
+RAM
+Tips
+Ātrums
+Ietilpība modulī
+Moduļu skaits
+Kopēja tilpīpa
+
+GPU
+PCIe Version
+Izmēri
+Power Connectors
+Display Outputs
+
