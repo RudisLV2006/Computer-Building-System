@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mother_boards', function (Blueprint $table) {
+        Schema::create('mother_board_specs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string("manufacturer");
             $table->string("series");
             $table->string("socket");
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mother_boards');
+        Schema::dropIfExists('mother_board_specs');
     }
 };
