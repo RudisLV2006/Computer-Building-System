@@ -13,5 +13,5 @@ class Product extends Model
     {
         return $this->belongsTo(MotherBoardSpec::class);
     }
-    //
+   
 }

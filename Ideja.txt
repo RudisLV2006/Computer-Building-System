@@ -7,3 +7,6 @@ citu lietotāju būves, izlasīt citu lietotāju komentārus un izveidot kontu. 
 konta izveides, lietotājam parādās iespēja saglabāt savu datoru, redigēt cita cilvēka
 veidotu, rakstīt komentārus un vērtēt komplektāciju vai detaļas.
 Projektā plānoju izmantot PHP, Laravel
+
+
+Save ram in eloquent
