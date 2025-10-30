@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View</title>
+    <title>Product View</title>
+    @vite('resources/css/app.css')
 </head>
 <body>
-    <a href="{{route('product.type', ['type'=>$type])}}">Back</a>
+    <a href="{{ route('product.type', ['type' => $type]) }}" class="back">← Back to {{ ucfirst($type) }} List</a>
 
-    <h1>Product: {{ $product->name }}</h1>
+    <h1>{{ $product->name }}</h1>
 
-<h2>Motherboard Specs</h2>
-<ul>
-    <li>Manufacturer: {{ $spec->manufacturer }}</li>
-    <li>Series: {{ $spec->series }}</li>
-    <li>Socket: {{ $spec->socket }}</li>
-    <li>Chipset: {{ $spec->chipset }}</li>
-    <li>Memory Technology: {{ $spec->memory_technology }}</li>
-    <li>Form Factor: {{ $spec->form_factor }}</li>
-</ul>
-
+    <h2>Motherboard Specs</h2>
+    <table>
+        <tr><th>Specification</th><th>Details</th></tr>
+        <tr><td>Manufacturer</td><td>{{ $spec->manufacturer }}</td></tr>
+        <tr><td>Series</td><td>{{ $spec->series }}</td></tr>
+        <tr><td>Socket</td><td>{{ $spec->socket }}</td></tr>
+        <tr><td>Chipset</td><td>{{ $spec->chipset }}</td></tr>
+        <tr><td>Memory Technology</td><td>{{ $spec->memory_technology }}</td></tr>
+        <tr><td>Form Factor</td><td>{{ $spec->form_factor }}</td></tr>
+    </table>
 </body>
 </html>

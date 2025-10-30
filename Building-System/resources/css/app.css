@@ -9,3 +9,132 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* === Global Styles === */
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --text-color: #222;
+    --background-color: #f5f7fa;
+    --card-bg: #fff;
+    --border-color: #e0e0e0;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --radius: 8px;
+    --font-main: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 20px;
+    color: var(--text-color);
+}
+
+/* === Headings === */
+h1, h2 {
+    text-align: center;
+    color: var(--text-color);
+}
+
+/* === Links and Buttons === */
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: 0.2s ease;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* === Back Button === */
+.back {
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+/* === Product List === */
+.product-list {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-name {
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.check-link {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.check-link:hover {
+    background-color: var(--primary-hover);
+}
+
+/* === Product Details Table === */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+th, td {
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* === Choice Page (buttons or links) === */
+.choice {
+    max-width: 500px;
+    margin: 50px auto;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.choice a {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.choice a:hover {
+    background-color: var(--primary-hover);
+}

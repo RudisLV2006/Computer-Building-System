@@ -19,7 +19,6 @@ class ProductController extends Controller
         return view('product.view', compact('spec', 'product', 'type'));
     }
 
-
     private function getProducts($type){
         if($type=='mobo'){
             return MotherBoardSpec::with('product')->get();
