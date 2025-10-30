@@ -7,10 +7,13 @@ use App\Models\MotherBoardSpec;
 
 class ProductController extends Controller
 {
+    private array $typeMap = [
+        'mobo' => MotherBoardSpec::class,
+    ];
     public function index(){
         return view("product.choise");
     }
-    public function type($type){
+    public function listByType($type){
         $products = $this->getProducts($type);
         return view("product.type", compact("products", "type"));
     }
@@ -20,9 +23,9 @@ class ProductController extends Controller
     }
 
     private function getProducts($type){
-        if($type=='mobo'){
-            return MotherBoardSpec::with('product')->get();
-        }
-        return collect();
+        if(!isset($this->typeMap[$type]))
+            return collect();
+        $model = $this->typeMap[$type]::with('product')->get();
+        return $model;
     }
 }

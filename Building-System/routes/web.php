@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
-Route::get('/product', [ProductController::class, 'index'])->name('product.choise');
-Route::get('/product/{type}', [ProductController::class, 'type'])->name('product.type');
-Route::get('/product/{type}/{spec}', [ProductController::class, 'showSpec'])->name('product.view');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{type}', [ProductController::class, 'listByType'])->name('products.byType');
+Route::get('/products/{type}/{spec}', [ProductController::class, 'showSpec'])->name('products.showSpec');
 
 

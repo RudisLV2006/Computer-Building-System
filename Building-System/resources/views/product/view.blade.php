@@ -7,7 +7,7 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-    <a href="{{ route('product.type', ['type' => $type]) }}" class="back">← Back to {{ ucfirst($type) }} List</a>
+    <a href="{{ route('products.byType', ['type' => $type]) }}" class="back">← Back to {{ ucfirst($type) }} List</a>
 
     <h1>{{ $product->name }}</h1>
 
