@@ -4,14 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\MotherBoardSpec;
 
 class Product extends Model
 {
     use HasFactory;
 
-    public function motherBoard(): BelongsTo
+    public function motherBoard(): HasOne
     {
-        return $this->belongsTo(MotherBoardSpec::class);
+        return $this->hasOne(MotherBoardSpec::class);
     }
    
 }
