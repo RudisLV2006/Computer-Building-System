@@ -15,5 +15,8 @@ class Product extends Model
     {
         return $this->hasOne(MotherBoardSpec::class);
     }
-   
+   public function cpu(): HasOne
+    {
+        return $this->hasOne(MotherBoardSpec::class);
+    }
 }

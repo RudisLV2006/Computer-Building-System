@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mother_board_specs', function (Blueprint $table) {
+        Schema::create('cpu_specs', function (Blueprint $table) {
             $table->foreignId('product_id')->primary()->constrained()->onDelete('cascade');
             $table->string("manufacturer");
             $table->string("series");
             $table->string("socket");
-            $table->string("chipset");
-            $table->string("memory_technology");
-            $table->string("form_factor");
+            $table->decimal("cpu_speed_ghz", 3, 1)->comment("CPU speed in GHz");
+            $table->unsignedSmallInteger("wattage_w")->comment("Power consumption in Watts");
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mother_board_specs');
+        Schema::dropIfExists('cpu_specs');
     }
 };
