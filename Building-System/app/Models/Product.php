@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\MotherBoardSpec;
+use App\Models\CPUSpec;
 
 class Product extends Model
 {
@@ -17,6 +18,6 @@ class Product extends Model
     }
    public function cpu(): HasOne
     {
-        return $this->hasOne(MotherBoardSpec::class);
+        return $this->hasOne(CPUSpec::class);
     }
 }

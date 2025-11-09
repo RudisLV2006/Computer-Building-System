@@ -12,6 +12,9 @@ class MotherBoardSpec extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'product_id';
+    public $incrementing = false;
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
@@ -21,5 +24,4 @@ class MotherBoardSpec extends Model
     {
         return MotherBoardFactory::new();
     }
-    //
 }

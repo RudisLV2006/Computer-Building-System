@@ -7,7 +7,7 @@
         @foreach ($products as $spec)
             <div class="product-item">
                 <p class="product-name">{{ $spec->product->name }}</p>
-                <a href="{{ route('products.showSpec', ['type' => $type, 'spec' => $spec->id]) }}" class="check-link">
+                <a href="{{ route('products.showSpec', ['type' => $type, 'spec' => $spec->product_id]) }}" class="check-link">
                     View Details
                 </a>
             </div>
