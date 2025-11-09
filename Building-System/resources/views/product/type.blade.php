@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
-    @vite('resources/css/app.css')
-
-</head>
-<body>
+<x-layout title="All product by type">
     <a href="{{ route('products.index') }}" class="back">← Back to Product Types</a>
 
     <h1>Available Products</h1>
@@ -22,5 +13,4 @@
             </div>
         @endforeach
     </div>
-</body>
-</html>
+</x-layout>

@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product View</title>
-    @vite('resources/css/app.css')
-</head>
-<body>
+<x-layout title="Check product specs">
     <a href="{{ route('products.byType', ['type' => $type]) }}" class="back">← Back to {{ ucfirst($type) }} List</a>
 
     <h1>{{ $product->name }}</h1>
@@ -21,5 +13,4 @@
         <tr><td>Memory Technology</td><td>{{ $spec->memory_technology }}</td></tr>
         <tr><td>Form Factor</td><td>{{ $spec->form_factor }}</td></tr>
     </table>
-</body>
-</html>
+</x-layout>
