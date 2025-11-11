@@ -4,16 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\CPUSpecs;
+use App\Models\CPUSpec;
 
-class CPUSpecsSeeder extends Seeder
+class CPUSpecSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        CPUSpecs::factory()
+        CPUSpec::factory()
         ->count(5)
         ->create();
     }

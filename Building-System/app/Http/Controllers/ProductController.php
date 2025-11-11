@@ -46,7 +46,6 @@ class ProductController extends Controller
     private function getProducts($type){
         if(!isset($this->typeMap[$type]))
             return collect();
-        $model = $this->typeMap[$type]::with('product')->get();
-        return $model;
+        return $this->typeMap[$type]::with('product')->get();
     }
 }

@@ -8,7 +8,7 @@ use App\Models\Product;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CPUSpecs>
  */
-class CPUSpecsFactory extends Factory
+class CPUSpecFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class CPUSpecsFactory extends Factory
         return [
             'product_id' => function () {
                 return Product::factory()->create([
-                    'type' => 'motherboard',
+                    'type' => 'cpu',
                 ])->id;
             },
             'manufacturer' => $this->faker->randomElement([

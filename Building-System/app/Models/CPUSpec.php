@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CPUSpec extends Model
 {
-    /** @use HasFactory<\Database\Factories\CPUSpecsFactory> */
+    /** @use HasFactory<\Database\Factories\CPUSpecFactory> */
     use HasFactory;
     
     protected $primaryKey = 'product_id';
