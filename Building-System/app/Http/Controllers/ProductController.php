@@ -17,26 +17,23 @@ class ProductController extends Controller
     }
     public function listByType($type)
     {
-        $this->validateType($type);
-    
-        $products = $this->typeMap[$type]::with('product')->get();
-    
-        if ($products->isEmpty()) {
+        $model = $this->validateType($type);
+        if (!$model) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-    
+        $products = $model::with('product')->get();
         return view("product.type", compact("products", "type"));
     }
     
     public function showSpec($type, $spec)
     {
-        $this->validateType($type);
-    
-        $specModel = $this->typeMap[$type]::with('product')->findOrFail($spec);
-        $product = $specModel->product;
-    
-        $view = "product.views.{$type}";
-    
+        $model = $this->validateType($type);
+        if (!$model) {
+            return redirect()->back()->withError("This device type doesn't exist");
+        }
+        $specModel = $model::with('product')->findOrFail($spec);
+        $product = $specModel->product;    
+        $view = "product.views.{$type}";    
         return view($view, [
             'spec' => $specModel,
             'product' => $product,
@@ -48,8 +45,9 @@ class ProductController extends Controller
     private function validateType($type)
     {
         if (!isset($this->typeMap[$type])) {
-            abort(404);
+            return null;
         }
+        return $this->typeMap[$type];
     }
 
 }

@@ -1,4 +1,4 @@
-<x-layout title="Check product specs">
+<x-layout title="Check mobo specs">
     <a href="{{ route('products.byType', $type) }}" class="back">← Back to Motherboards</a>
     
     <div class="product-view motherboard-view">
@@ -9,7 +9,7 @@
         
         <div class="product-content">
             <div class="product-image">
-                <img src="{{ $product->image ?? 'https://via.placeholder.com/300' }}" alt="{{ $product->name }}">
+                <img src="{{$product->image ?? 'https://placehold.co/300?text=' . urlencode($product->name) }}">
             </div>
             
             <div class="product-details">
