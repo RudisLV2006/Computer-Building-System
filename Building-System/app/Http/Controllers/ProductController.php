@@ -15,27 +15,28 @@ class ProductController extends Controller
     public function index(){
         return view("product.choise");
     }
-    public function listByType($type){
-        $products = $this->getProducts($type);
+    public function listByType($type)
+    {
+        $this->validateType($type);
+    
+        $products = $this->typeMap[$type]::with('product')->get();
+    
+        if ($products->isEmpty()) {
+            return redirect()->back()->withError("This device type doesn't exist");
+        }
+    
         return view("product.type", compact("products", "type"));
     }
-    public function showSpec($type, $spec){
-        $specModel = null;
-        $view = null;
-        switch ($type){
-            case 'mobo':
-                $specModel = MotherBoardSpec::with('product')->findOrFail($spec);
-                $view = 'product.views.mobo';
-                break;
-                
-            case 'cpu':
-               $specModel = CPUSpec::with('product')->findOrFail($spec);
-               $view = 'product.views.cpu';
-               break;
-            default:
-                abort(404);
-        }
+    
+    public function showSpec($type, $spec)
+    {
+        $this->validateType($type);
+    
+        $specModel = $this->typeMap[$type]::with('product')->findOrFail($spec);
         $product = $specModel->product;
+    
+        $view = "product.views.{$type}";
+    
         return view($view, [
             'spec' => $specModel,
             'product' => $product,
@@ -43,9 +44,12 @@ class ProductController extends Controller
         ]);
     }
 
-    private function getProducts($type){
-        if(!isset($this->typeMap[$type]))
-            return collect();
-        return $this->typeMap[$type]::with('product')->get();
+
+    private function validateType($type)
+    {
+        if (!isset($this->typeMap[$type])) {
+            abort(404);
+        }
     }
+
 }

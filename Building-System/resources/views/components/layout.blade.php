@@ -8,6 +8,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
+    @if (Session('error'))
+        <p class="text-danger">{{ session('error') }}</p>
+    @endif
     <header>
         <p>Will be implemented</p>
     </header>
