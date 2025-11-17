@@ -16,6 +16,11 @@
         <p>Will be implemented</p>
     </header>
 
+    <nav>
+        <a href="{{route('products.index')}}">Products</a> |
+        <a href="{{route('builder.index')}}">Builder</a>    
+    </nav>
+
     <main>
         {{ $slot }}
     </main>
