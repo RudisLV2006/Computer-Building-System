@@ -25,21 +25,21 @@ class ProductController extends Controller
         return view("product.type", compact("products", "type"));
     }
     
-    public function showSpec($type, $spec)
+    public function showSpec($type, $item)
     {
         $model = $this->validateType($type);
         if (!$model) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-        $specModel = $model::with('product')->findOrFail($spec);
-        $product = $specModel->product;    
+        $itemModel = $model::with('product')->findOrFail($item);
+        $product = $itemModel->product;    
         $view = "product.views.{$type}";    
         return view($view, [
-            'spec' => $specModel,
+            'item' => $itemModel,
             'product' => $product,
             'type' => $type
         ]);
-    }
+    } 
 
 
     private function validateType($type)

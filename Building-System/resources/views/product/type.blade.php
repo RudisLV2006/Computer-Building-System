@@ -4,11 +4,14 @@
     <h1>Available Products</h1>
 
     <div class="product-list">
-        @foreach ($products as $spec)
+        @foreach ($products as $item)
             <div class="product-item">
-                <p class="product-name">{{ $spec->product->name }}</p>
-                <a href="{{ route('products.showSpec', ['type' => $type, 'spec' => $spec->product_id]) }}" class="check-link">
+                <p class="product-name">{{ $item->product->name }}</p>
+                <a href="{{ route('products.showSpec', ['type' => $type, 'item' => $item->product_id]) }}" class="check-link">
                     View Details
+                </a>
+                <a href="{{ route('builder.item', ['type' => $type, 'item' => $item->product_id]) }}" class="check-link">
+                    Add
                 </a>
             </div>
         @endforeach
