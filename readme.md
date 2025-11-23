@@ -16,7 +16,8 @@ Pirms uzstādīšanas pārliecinies, ka datorā ir uzstādīts
 - PHP 8.2+  
 - Composer  
 - Git
-
+- Node JS
+- CSS
   
 ## Instalēšana
 
@@ -39,6 +40,11 @@ Izveidot .env failu
   cp .env.example .env
 ```
 
+Instalēt vizuālo
+```bash
+  npm install
+```
+
 Ģenerēt lietotnes atslēgu
 ```bash
   php artisan key:generate
@@ -56,6 +62,9 @@ Palaist Laravel serveri
 
 ```bash
   php artisan serve
+```
+```bash
+  npm run dev
 ```
 
 Apmeklēt pārlūkā [http://localhost:8000](http://localhost:8000)
