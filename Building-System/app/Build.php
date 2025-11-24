@@ -4,18 +4,21 @@ namespace App;
 
 class Build
 {
-    /**
-     * Create a new class instance.
-     */
+    public $item = [];
 
-    public $item;
-
-    public function __construct($oldBuilt)
+    public function __construct($oldcart)
     {
-        $this->item = $oldBuilt;
+        $this->item = $oldcart ?? [];
     }
 
-    public static function printItem(){
-        dd($this->item);
+    public function printItem(){
+        return $this->item;
+    }
+
+    public function addItem($type, $product){
+        $this->item[$type] = [
+            "id" => $product->product_id,
+            'product' => $product->toArray(),
+        ];
     }
 }

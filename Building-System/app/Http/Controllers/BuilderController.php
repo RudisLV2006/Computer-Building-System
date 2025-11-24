@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CPUSpec;
+use App\ProductTypeRegistry;
+use App\Build;
     
 class BuilderController extends Controller
 {
@@ -15,7 +16,18 @@ class BuilderController extends Controller
     }
 
     public function addItem(Request $request, $type, $item){
-        $product = CPUSpec::with('product')->findOrFail($item);
-        dd($product);
+        if (!ProductTypeRegistry::exists($type)) {
+            return redirect()->back()->withError("This device type doesn't exist");
+        }
+        $model = ProductTypeRegistry::getModel($type);
+        $product = $model::with('product')->findOrFail($item);
+
+        $oldCart = session()->get('Builder.cart', []);
+        $cart = new Build($oldCart);
+        $cart->addItem($type, $product);
+
+        session()->put('Builder.cart', $cart);
+
+        dd($cart->printItem());
     }
 }

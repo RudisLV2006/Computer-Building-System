@@ -3,34 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\MotherBoardSpec;
-use App\Models\CPUSpec;
+use App\ProductTypeRegistry;
 
 class ProductController extends Controller
 {
-    private array $typeMap = [
-        'mobo' => MotherBoardSpec::class,
-        'cpu' => CPUSpec::class,
-    ];
     public function index(){
         return view("product.choise");
     }
     public function listByType($type)
     {
-        $model = $this->validateType($type);
-        if (!$model) {
+        if (!ProductTypeRegistry::exists($type)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-        $products = $model::with('product')->get();
-        return view("product.type", compact("products", "type"));
+        $model = ProductTypeRegistry::getModel($type);
+        $items = $model::with('product')->get();
+        return view("product.type", compact("items", "type"));
     }
     
     public function showSpec($type, $item)
     {
-        $model = $this->validateType($type);
-        if (!$model) {
+        if (!ProductTypeRegistry::exists($type)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
+        $model = ProductTypeRegistry::getModel($type);
         $itemModel = $model::with('product')->findOrFail($item);
         $product = $itemModel->product;    
         $view = "product.views.{$type}";    
@@ -40,14 +35,4 @@ class ProductController extends Controller
             'type' => $type
         ]);
     } 
-
-
-    private function validateType($type)
-    {
-        if (!isset($this->typeMap[$type])) {
-            return null;
-        }
-        return $this->typeMap[$type];
-    }
-
 }
