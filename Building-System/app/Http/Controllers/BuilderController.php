@@ -12,7 +12,8 @@ class BuilderController extends Controller
         $parts = [
             'cpu','mobo','tbd'
         ];
-        return view("builder", compact("parts"));
+        $cart = session()->get('Builder.cart', new Build([]));
+        return view("builder", compact("parts", 'cart'));
     }
 
     public function addItem(Request $request, $type, $item){
@@ -25,9 +26,11 @@ class BuilderController extends Controller
         $oldCart = session()->get('Builder.cart', []);
         $cart = new Build($oldCart);
         $cart->addItem($type, $product);
-
         session()->put('Builder.cart', $cart);
+        return redirect()->route('builder.index')->with('success', 'Component successfully added');
+    }
 
-        dd($cart->printItem());
+    public function debug(){
+       dd(session()->get('Builder.cart'));
     }
 }

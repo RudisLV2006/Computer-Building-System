@@ -16,3 +16,4 @@ Route::get('/products/{type}/{item}', [ProductController::class, 'showSpec'])->n
 
 Route::get('/builder', [BuilderController::class, 'index'])->name('builder.index');
 Route::get('/builder/{type}/{item}', [BuilderController::class, 'addItem'])->name('builder.addItem');
+Route::get('/debug', [BuilderController::class, 'debug'])->name('builder.debug');

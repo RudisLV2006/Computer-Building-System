@@ -10,6 +10,7 @@
                 <thead>
                     <tr>
                         <th>Component</th>
+                        <th>Selection</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -19,6 +20,15 @@
                                 <a href="{{ route('products.byType', ['type' => $part]) }}" class="part-name-link">
                                     {{ ucfirst($part) }}
                                 </a>
+                            </td>
+                            <td>
+                                @if($cart->hasItem($part))
+                                    <div class="selected-product">
+                                        <strong class="product-name">{{ $cart->getProduct($part)['name'] }}</strong>
+                                    </div>
+                                @else
+                                    <span class="not-selected">Not selected</span>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -4,6 +4,7 @@
     <h1>Available Products</h1>
 
     <div class="product-list">
+
         @foreach ($items as $item)
             <div class="product-item">
                 <p class="product-name">{{ $item->product->name }}</p>

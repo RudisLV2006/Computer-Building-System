@@ -474,3 +474,21 @@ a:hover {
     color: var(--primary-hover);
     text-decoration: underline;
 }
+.selected-product {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.selected-product .product-name {
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.not-selected {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-style: italic;
+    opacity: 0.7;
+}
