@@ -5,6 +5,7 @@ namespace App;
 use App\Models\MotherBoardSpec;
 use App\Models\CPUSpec;
 
+// Speciāla klase ar kuras palīdzību iegūst katra komponenta modeli, kur pēc tam izmanto, lai iegūt datus
 class ProductTypeRegistry
 {
     private static array $typeMap = [
