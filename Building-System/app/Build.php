@@ -17,14 +17,18 @@ class Build
     
     // Palīgu metodes, kuras sniedz palīdzību iegūt datus no sesijas
     public function getSpec($type){
-        return $this->item[$type]['spec'];
+        return $this->items[$type]['spec'];
     }
     public function getField($type, $field){
-        return $this->item[$type]['spec'][$field];
+        return $this->items[$type]['spec'][$field];
     }
     public function getProduct($type)
     {
         return $this->items[$type]['spec']['product'];
+    }
+    public function getItems()
+    {
+        return $this->items;
     }
 
 
