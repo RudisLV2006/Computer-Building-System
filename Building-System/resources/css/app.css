@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,8 +6,9 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
 }
 
 /* === CSS Variables === */
@@ -37,7 +38,8 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter",
+        system-ui, sans-serif;
     background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
     margin: 0;
     padding: 0;
@@ -65,13 +67,20 @@ header p {
 
 /* === Navigation === */
 nav {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--primary-hover) 100%
+    );
     padding: 0;
     box-shadow: var(--shadow-md);
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 nav a {
@@ -268,7 +277,11 @@ a:hover {
 
 .product-type {
     display: inline-block;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--primary-hover) 100%
+    );
     color: white;
     padding: 8px 20px;
     border-radius: 50px;
@@ -379,7 +392,11 @@ a:hover {
     display: inline-block;
     margin: 10px;
     padding: 14px 28px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--primary-hover) 100%
+    );
     color: white;
     border-radius: var(--radius-sm);
     font-weight: 600;
@@ -440,7 +457,6 @@ a:hover {
     letter-spacing: 0.8px;
 }
 
-
 .builder-table tbody tr {
     transition: var(--transition);
 }
@@ -491,4 +507,21 @@ a:hover {
     font-size: 14px;
     font-style: italic;
     opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .product-content {
+        grid-template-columns: 1fr; /* One column */
+        gap: 20px;
+    }
+
+    .product-image {
+        position: static; /* disable sticky on mobile */
+        text-align: center;
+    }
+
+    .product-image img {
+        max-width: 300px; /* optional: keeps image nicely sized */
+        width: 100%;
+    }
 }

@@ -1,5 +1,6 @@
 <x-layout title="All product by type">
     <a href="{{ route('products.index') }}" class="back">← Back to Product Types</a>
+    <a href="{{ route('builder.debug') }}" class="back">Debug</a>
 
     <h1>Available Products</h1>
 
@@ -10,9 +11,10 @@
                 <a href="{{ route('products.showSpec', ['type' => $type, 'item' => $item->product_id]) }}" class="check-link">
                     View Details
                 </a>
-                <a href="{{ route('builder.addItem', ['type' => $type, 'item' => $item->product_id]) }}" class="check-link">
-                    Add
-                </a>
+                <form action="{{route('builder.addItem', ['type' => $type, 'item' => $item->product_id])}}" method="post">
+                    @csrf
+                    <button>Add</button>
+                </form>
             </div>
         @endforeach
     </div>

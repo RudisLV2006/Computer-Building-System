@@ -3,6 +3,12 @@
         <div class="builder-header">
             <h1 class="builder-title">PC Builder</h1>
             <p class="builder-subtitle">Select components for your custom build</p>
+
+            @if(Session('incompacting'))
+                @foreach($messages as $message)
+                @endforeach
+            @endif
+
         </div>
 
         <div class="builder-table">

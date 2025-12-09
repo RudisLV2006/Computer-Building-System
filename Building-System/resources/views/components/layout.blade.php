@@ -12,10 +12,7 @@
     @if (Session('error'))
         <p class="text-danger">{{ session('error') }}</p>
     @endif
-    <header>
-        <p>Will be implemented</p>
-    </header>
-
+    
     <nav>
         <a href="{{route('products.index')}}">Products</a> |
         <a href="{{route('builder.index')}}">Builder</a>    

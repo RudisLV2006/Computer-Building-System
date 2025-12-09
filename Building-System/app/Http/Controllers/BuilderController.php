@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ProductTypeRegistry;
 use App\Build;
+use App\CompactibilityChecker;
     
 class BuilderController extends Controller
 {
@@ -13,6 +14,8 @@ class BuilderController extends Controller
             'cpu','mobo','tbd'
         ];
         $cart = session()->get('Builder.cart', new Build([]));
+        $checker = new CompactibilityChecker($cart);
+        $error = $checker->validateBuild();
         return view("builder", compact("parts", 'cart'));
     }
 
