@@ -28,13 +28,13 @@ class ProductController extends Controller
         return view("product.type", compact("items", "type"));
     }
     
-    public function showSpec($type, $item)
+    public function showSpec($type, $id)
     {
         if (!ProductTypeRegistry::exists($type)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
         $model = ProductTypeRegistry::getModel($type);
-        $itemModel = $model::with('product')->findOrFail($item);
+        $itemModel = $model::with('product')->findOrFail($id);
         $product = $itemModel->product;    
         $view = "product.views.{$type}";    
         return view($view, [

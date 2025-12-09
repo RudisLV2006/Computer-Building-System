@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\ProductTypeRegistry;
+
+
 // Tiek pielietota, lai saglabātu objektu Laravel sesija.
 class Build
 {
@@ -17,25 +20,37 @@ class Build
     
     // Palīgu metodes, kuras sniedz palīdzību iegūt datus no sesijas
     public function getSpec($type){
-        return $this->items[$type]['spec'];
+        $model = $this->loadModel($type);
+        return $model ?? null;
     }
     public function getField($type, $field){
-        return $this->items[$type]['spec'][$field];
+        $model = $this->loadModel($type);
+        return $model->{$field} ?? null;
     }
     public function getProduct($type)
     {
-        return $this->items[$type]['spec']['product'];
+        $model = $this->loadModel($type);
+        return $model ? $model->product : null;
     }
     public function getItems()
     {
         return $this->items;
     }
 
-
-    public function addItem($type, $product){
+    public function addItem($type, $id){
         $this->items[$type] = [
-            "id" => $product->product_id,
-            'spec' => $product->toArray(),
+            "product_id" => $id,
         ];
+    }
+    public function loadModel($type){
+        if(!$this->hasItem($type)){
+            return null;
+        }
+        $model = ProductTypeRegistry::getModel($type);
+        if(!$model){
+            return null;
+        }
+        $productId = $this->items[$type]["product_id"];
+        return $model::with('product')->find($productId);
     }
 }

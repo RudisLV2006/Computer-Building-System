@@ -10,10 +10,10 @@ Route::get('/', function(){
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{type}', [ProductController::class, 'listByType'])->name('products.byType');
-Route::get('/products/{type}/{item}', [ProductController::class, 'showSpec'])->name('products.showSpec');
+Route::get('/products/{type}/{id}', [ProductController::class, 'showSpec'])->name('products.showSpec');
 
 
 
 Route::get('/builder', [BuilderController::class, 'index'])->name('builder.index');
-Route::post('/builder/{type}/{item}', [BuilderController::class, 'addItem'])->name('builder.addItem');
+Route::post('/builder/{type}/{id}', [BuilderController::class, 'addItem'])->name('builder.addItem');
 Route::get('/debug', [BuilderController::class, 'debug'])->name('builder.debug');

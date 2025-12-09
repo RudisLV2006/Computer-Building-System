@@ -20,17 +20,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($parts as $part)
+                    @foreach($types as $type)
                         <tr>
                             <td>
-                                <a href="{{ route('products.byType', ['type' => $part]) }}" class="part-name-link">
-                                    {{ ucfirst($part) }}
+                                <a href="{{ route('products.byType', ['type' => $type]) }}" class="part-name-link">
+                                    {{ ucfirst($type) }}
                                 </a>
                             </td>
                             <td>
-                                @if($cart->hasItem($part))
+                                @if($cart->hasItem($type))
                                     <div class="selected-product">
-                                        <strong class="product-name">{{ $cart->getProduct($part)['name'] }}</strong>
+                                        <strong class="product-name">{{ $cart->getProduct($type)["name"] }}</strong>
                                     </div>
                                 @else
                                     <span class="not-selected">Not selected</span>

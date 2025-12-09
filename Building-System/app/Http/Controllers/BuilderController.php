@@ -10,25 +10,22 @@ use App\CompactibilityChecker;
 class BuilderController extends Controller
 {
     public function index(){
-        $parts = [
+        $types = [
             'cpu','mobo','tbd'
         ];
         $cart = session()->get('Builder.cart', new Build([]));
-        $checker = new CompactibilityChecker($cart);
-        $error = $checker->reviewBuild();
-        return view("builder", compact("parts", 'cart'));
+        // $checker = new CompactibilityChecker($cart);
+        // $error = $checker->reviewBuild();
+        return view("builder", compact("types", 'cart'));
     }
 
-    public function addItem(Request $request, $type, $item){
+    public function addItem(Request $request, $type, $id){
         if (!ProductTypeRegistry::exists($type)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-        $model = ProductTypeRegistry::getModel($type);
-        $product = $model::with('product')->findOrFail($item);
-
         $oldCart = session()->get('Builder.cart', []);
         $cart = new Build($oldCart);
-        $cart->addItem($type, $product);
+        $cart->addItem($type, $id);
         session()->put('Builder.cart', $cart);
         return redirect()->route('builder.index')->with('success', 'Component successfully added');
     }

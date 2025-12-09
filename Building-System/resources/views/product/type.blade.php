@@ -8,10 +8,10 @@
         @foreach ($items as $item)
             <div class="product-item">
                 <p class="product-name">{{ $item->product->name }}</p>
-                <a href="{{ route('products.showSpec', ['type' => $type, 'item' => $item->product_id]) }}" class="check-link">
+                <a href="{{ route('products.showSpec', ['type' => $type, 'id' => $item->product_id]) }}" class="check-link">
                     View Details
                 </a>
-                <form action="{{route('builder.addItem', ['type' => $type, 'item' => $item->product_id])}}" method="post">
+                <form action="{{route('builder.addItem', ['type' => $type, 'id' => $item->product_id])}}" method="post">
                     @csrf
                     <button>Add</button>
                 </form>
