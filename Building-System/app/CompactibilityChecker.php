@@ -36,38 +36,37 @@ class CompactibilityChecker
 
     public function reviewBuild(){
         $errors = $this->validateBuild();
-        \Log::debug($errors);
         return null;
     }
     public function validateBuild(){
         $errors = [];
-
         foreach ($this->build->getItems() as $type => $item){
+            // \Log::debug($type);
             if(!isset(self::$rules[$type])){
                 continue;
             }
-
+            
             foreach(self::$rules[$type] as $rule){
                 // ['requires' => 'mobo', 'field' => 'socket', 'match_field' => 'socket'],
                 $requiredType= $rule["requires"];
-                
-
                 if(!$this->build->hasItem($requiredType)){
                     continue;
                 }
-                
                 $requiredValue = $this->build->getField($requiredType, $rule['match_field']);
                 $currentValue = $item['spec'][$rule['field']];
-
-                if(!($requiredType == $currentValue)){
+                if(!($requiredValue === $currentValue)){
+                    // \Log::info("There is an error");
                     $errors[] = [
                         'component' => $type,
-                        'component_name' => $this->build->getProduct($type),
+                        'component_name' => $this->build->getProduct($type)['name'],
+                        'incompatible_with' => $requiredType,
+                        'incompatible_name' => $this->build->getProduct($requiredType)['name'],
                         'message' => "There are error",
                     ];
                 }
             }
-            return $errors;
         }
+        \Log::debug($errors);
+        return $errors;
     }
 }
