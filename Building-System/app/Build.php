@@ -47,9 +47,6 @@ class Build
             return null;
         }
         $model = ProductTypeRegistry::getModel($type);
-        if(!$model){
-            return null;
-        }
         $productId = $this->items[$type]["product_id"];
         return $model::with('product')->find($productId);
     }

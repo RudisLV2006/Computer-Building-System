@@ -20,6 +20,7 @@ class BuilderController extends Controller
     }
 
     public function addItem(Request $request, $type, $id){
+        
         if (!ProductTypeRegistry::exists($type)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
