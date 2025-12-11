@@ -36,17 +36,18 @@ class CompactibilityChecker
 
     public function reviewBuild(){
         $errors = $this->validateBuild();
-        return null;
+        return [
+            "isValid" => empty($errors),
+            "errors" => $errors,
+        ];
     }
     public function validateBuild(){
         $errors = [];
         $checkedPairs = [];
         foreach ($this->build->getItems() as $type => $item){
-            // \Log::debug($type);
             if(!isset(self::$rules[$type])){
                 continue;
             }
-            
             foreach(self::$rules[$type] as $rule){
                 // ['requires' => 'mobo', 'field' => 'socket', 'match_field' => 'socket'],
                 $requiredType= $rule["requires"];
@@ -66,7 +67,6 @@ class CompactibilityChecker
                 $currentValue = $item['spec'][$rule['field']];
                 $operator = $rule['operator'] ?? '=';
                 if(!$this->checkCompactibility($requiredValue,$currentValue,$operator)){
-                    // \Log::info("There is an error");
                     $errors[] = [
                         'component' => $type,
                         'component_name' => $this->build->getProduct($type)['name'],
@@ -88,7 +88,6 @@ class CompactibilityChecker
                 }
             }
         }
-        \Log::debug($errors);
         return $errors;
     }
     public function createKeyPairs($type1, $type2, $field1, $field2){
@@ -110,7 +109,6 @@ class CompactibilityChecker
     }
     public function generateErrorMessage($type, $rule, $requiredValue, $currentValue, $componentName, $requiredComponentName){
         $fieldName = ucfirst(str_replace('_', ' ', $rule["field"]));
-
         return sprintf(
             "%s is incompatible with %s. %s requires %s %s but %s has %s.",
             $componentName,
