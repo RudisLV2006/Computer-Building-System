@@ -153,3 +153,14 @@ it('overwrites an item when adding same type twice', function () {
     expect($items['cpu'])->toBe(['product_id' => 2]);
 });
 
+it('can give an field by its name', function(){
+    $build = new Build(null);
+    CPUSpec::factory()->create(["socket"=>"test"]);
+    $build->addItem("cpu",CPUSpec::first()->product_id);
+
+    $result = $build->getField("cpu", "socket");
+
+    expect($result)->not()->toBeNull();
+    expect($result)->toBe("test");
+});
+

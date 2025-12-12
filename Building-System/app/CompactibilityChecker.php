@@ -23,9 +23,9 @@ class CompactibilityChecker
         }
         foreach(self::$rules[$type] as $rule){
             if(!$this->build->hasItem($rule['requires'])){
+                \Log::info($rule['requires']);
                 continue;
             }
-
             $requiredValue = $this->build->getField($rule['requires'], $rule['match_field']);
             $operator = $rule['operator'] ?? '=';
 
