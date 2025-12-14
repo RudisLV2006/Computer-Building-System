@@ -17,13 +17,13 @@ class CompactibilityChecker
     {
         $this->build = $build;
     }
-    public function getCompactibleProduct($type, $query){
-        if(!isset(self::$rules[$type])){
+    public function getCompactibleProduct($type, $query)
+    {
+        if (!isset(self::$rules[$type])) {
             return $query;
         }
-        foreach(self::$rules[$type] as $rule){
-            if(!$this->build->hasItem($rule['requires'])){
-                \Log::info($rule['requires']);
+        foreach (self::$rules[$type] as $rule) {
+            if (!$this->build->hasItem($rule['requires'])) {
                 continue;
             }
             $requiredValue = $this->build->getField($rule['requires'], $rule['match_field']);
@@ -34,24 +34,27 @@ class CompactibilityChecker
         return $query;
     }
 
-    public function reviewBuild(){
+    public function reviewBuild()
+    {
         $errors = $this->validateBuild();
         return [
             "isValid" => empty($errors),
             "errors" => $errors,
         ];
     }
-    public function validateBuild(){
+    public function validateBuild()
+    {
         $errors = [];
         $checkedPairs = [];
-        foreach ($this->build->getItems() as $type => $item){
-            if(!isset(self::$rules[$type])){
+
+        foreach ($this->build->getItems() as $type => $product_id) {
+            if (!isset(self::$rules[$type])) {
                 continue;
             }
-            foreach(self::$rules[$type] as $rule){
+            foreach (self::$rules[$type] as $rule) {
                 // ['requires' => 'mobo', 'field' => 'socket', 'match_field' => 'socket'],
-                $requiredType= $rule["requires"];
-                if(!$this->build->hasItem($requiredType)){
+                $requiredType = $rule["requires"];
+                if (!$this->build->hasItem($requiredType)) {
                     continue;
                 }
 
@@ -64,10 +67,10 @@ class CompactibilityChecker
                 $checkedPairs[$pairKey] = true;
 
                 $requiredValue = $this->build->getField($requiredType, $rule['match_field']);
-                $currentValue = $item['spec'][$rule['field']];
+                $currentValue = $this->build->getField($type, $rule['field']);
                 $operator = $rule['operator'] ?? '=';
-                if(!$this->checkCompactibility($requiredValue,$currentValue,$operator)){
-                    $errors[] = [
+                if (!$this->checkCompactibility($requiredValue, $currentValue, $operator)) {
+                    $errors[$pairKey] = [
                         'component' => $type,
                         'component_name' => $this->build->getProduct($type)['name'],
                         'incompatible_with' => $requiredType,
@@ -90,24 +93,27 @@ class CompactibilityChecker
         }
         return $errors;
     }
-    public function createKeyPairs($type1, $type2, $field1, $field2){
-        $component = [$type1,$type2];
+    public function createKeyPairs($type1, $type2, $field1, $field2)
+    {
+        $component = [$type1, $type2];
         sort($component);
 
-        if($field1===$field2){
+        if ($field1 === $field2) {
             return implode("-", $component) . ":" . $field1;
         }
         return implode("-", $component) . ":" . $field1 . "-" . $field2;
     }
-    public function checkCompactibility($currentField, $requiredField,$operator){
-        switch($operator){
+    public function checkCompactibility($currentField, $requiredField, $operator)
+    {
+        switch ($operator) {
             case "=":
-                return $currentField==$requiredField;
+                return $currentField == $requiredField;
             default:
                 return false;
         }
     }
-    public function generateErrorMessage($type, $rule, $requiredValue, $currentValue, $componentName, $requiredComponentName){
+    public function generateErrorMessage($type, $rule, $requiredValue, $currentValue, $componentName, $requiredComponentName)
+    {
         $fieldName = ucfirst(str_replace('_', ' ', $rule["field"]));
         return sprintf(
             "%s is incompatible with %s. %s requires %s %s but %s has %s.",
