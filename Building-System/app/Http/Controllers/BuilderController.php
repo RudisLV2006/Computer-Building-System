@@ -15,7 +15,7 @@ class BuilderController extends Controller
         $cart = session()->get('Builder.cart', new Build([]));
         // $checker = new CompactibilityChecker($cart);
         // $error = $checker->reviewBuild();
-        return view("builder", compact("types", 'cart'));
+        return view("builder.builder", compact("types", 'cart'));
     }
 
     public function addItem(Request $request, $type, $id)

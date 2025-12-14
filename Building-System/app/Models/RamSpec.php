@@ -11,6 +11,8 @@ class RamSpec extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'product_id';
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

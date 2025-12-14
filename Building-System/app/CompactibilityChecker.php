@@ -7,11 +7,15 @@ class CompactibilityChecker
     protected $build;
     protected static $rules = [
         'cpu' => [
-            ['requires' => 'mobo', 'field' => 'socket', 'match_field' => 'socket'],
+            ['requires' => 'motherboard', 'field' => 'socket', 'match_field' => 'socket'],
         ],
-        'mobo' => [
+        'motherboard' => [
             ['requires' => 'cpu', 'field' => 'socket', 'match_field' => 'socket'],
+            ['requires' => 'ram', 'field' => 'memory_technology', 'match_field' => 'memory_type']
         ],
+        'ram' => [
+            ['requires'    => 'motherboard', 'field' => 'memory_type', 'match_field' => 'memory_technology',],
+        ]
     ];
     public function __construct(Build $build)
     {
