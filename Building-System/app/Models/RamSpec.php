@@ -3,17 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class MotherboardSpec extends Model
+class RamSpec extends Model
 {
     use HasFactory;
-
-    protected $primaryKey = 'product_id';
-    public $incrementing = false;
-    // protected $table = 'motherboard_specs';
 
     public function product(): BelongsTo
     {

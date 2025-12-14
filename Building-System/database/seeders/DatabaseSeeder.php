@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\MotherBoardSpec;
-use App\Models\CPUSpec;
+use App\Models\MotherboardSpec;
+use App\Models\CpuSpec;
+use App\Models\RamSpec;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,16 +17,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $count = 10;
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-        MotherBoardSpec::factory()
-        ->count($count)
-        ->create();
-        CPUSpec::factory()
-        ->count($count)
-        ->create();
+        MotherboardSpec::factory()
+            ->count($count)
+            ->create();
+        CpuSpec::factory()
+            ->count($count)
+            ->create();
+        RamSpec::factory()
+            ->count($count)
+            ->create();
     }
 }

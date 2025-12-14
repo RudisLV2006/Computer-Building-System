@@ -8,14 +8,14 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
-class CPUSpec extends Model
+class CpuSpec extends Model
 {
     /** @use HasFactory<\Database\Factories\CPUSpecFactory> */
     use HasFactory;
-    
+
     protected $primaryKey = 'product_id';
     public $incrementing = false;
-    protected $table = 'cpu_specs';
+    // protected $table = 'cpu_specs';
 
     public function product(): BelongsTo
     {

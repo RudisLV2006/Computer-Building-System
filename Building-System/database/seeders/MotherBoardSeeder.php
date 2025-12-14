@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\MotherBoardSpec;
 
-class MotherBoardSeeder extends Seeder
+class MotherboardSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class MotherBoardSeeder extends Seeder
     public function run(): void
     {
         MotherBoardSpec::factory()
-        ->count(5)
-        ->create();
+            ->count(5)
+            ->create();
     }
 }

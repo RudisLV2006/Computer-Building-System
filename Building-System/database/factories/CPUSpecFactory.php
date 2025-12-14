@@ -8,7 +8,7 @@ use App\Models\Product;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CPUSpecs>
  */
-class CPUSpecFactory extends Factory
+class CpuSpecFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -24,14 +24,19 @@ class CPUSpecFactory extends Factory
                 ])->id;
             },
             'manufacturer' => $this->faker->randomElement([
-                'AMD', 'INTEL',
+                'AMD',
+                'INTEL',
             ]),
             'series' => $this->faker->word(),
             'socket' => $this->faker->randomElement([
-                 'LGA1200', 'AM4', 'LGA1700', 'TR4', 'LGA1151'
+                'LGA1200',
+                'AM4',
+                'LGA1700',
+                'TR4',
+                'LGA1151'
             ]),
-            'cpu_speed_ghz' => $this->faker->randomFloat(1,3,9),
-            'wattage_w'=> $this->faker->randomNumber(2,true),
+            'cpu_speed_ghz' => $this->faker->randomFloat(1, 3, 9),
+            'wattage_w' => $this->faker->randomNumber(2, true),
         ];
     }
 }

@@ -5,19 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Models\MotherBoardSpec;
-use App\Models\CPUSpec;
+use App\Models\MotherboardSpec;
+use App\Models\CpuSpec;
 
 class Product extends Model
 {
     use HasFactory;
-
-    public function motherBoard(): HasOne
-    {
-        return $this->hasOne(MotherBoardSpec::class);
-    }
-   public function cpu(): HasOne
-    {
-        return $this->hasOne(CPUSpec::class);
-    }
 }

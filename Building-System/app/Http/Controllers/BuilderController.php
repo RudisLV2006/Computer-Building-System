@@ -6,21 +6,21 @@ use Illuminate\Http\Request;
 use App\ProductTypeRegistry;
 use App\Build;
 use App\CompactibilityChecker;
-    
+
 class BuilderController extends Controller
 {
-    public function index(){
-        $types = [
-            'cpu','mobo','tbd'
-        ];
+    public function index()
+    {
+        $types = ProductTypeRegistry::returnTypes();
         $cart = session()->get('Builder.cart', new Build([]));
         // $checker = new CompactibilityChecker($cart);
         // $error = $checker->reviewBuild();
         return view("builder", compact("types", 'cart'));
     }
 
-    public function addItem(Request $request, $type, $id){
-        
+    public function addItem(Request $request, $type, $id)
+    {
+
         if (!ProductTypeRegistry::exists($type)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
@@ -31,7 +31,8 @@ class BuilderController extends Controller
         return redirect()->route('builder.index')->with('success', 'Component successfully added');
     }
 
-    public function debug(){
-       dd(session()->get('Builder.cart'));
+    public function debug()
+    {
+        dd(session()->get('Builder.cart'));
     }
 }

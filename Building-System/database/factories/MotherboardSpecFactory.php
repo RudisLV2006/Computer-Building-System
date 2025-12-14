@@ -9,9 +9,9 @@ use App\Models\Product;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MotherBoardSpec>
  */
-class MotherBoardFactory extends Factory
+class MotherboardSpecFactory extends Factory
 {
-    protected $model = MotherBoardSpec::class;
+    // protected $model = MotherBoardSpec::class;
     /**
      * Define the model's default state.
      *
@@ -26,24 +26,40 @@ class MotherBoardFactory extends Factory
                 ])->id;
             },
             'manufacturer' => $this->faker->randomElement([
-                'ASUS', 'Gigabyte', 'MSI', 'ASRock', 'Biostar'
+                'ASUS',
+                'Gigabyte',
+                'MSI',
+                'ASRock',
+                'Biostar'
             ]),
 
             'series' => $this->faker->word(), // or something like 'ROG', 'AORUS'
             'socket' => $this->faker->randomElement([
-                'LGA1200', 'AM4', 'LGA1700', 'TR4', 'LGA1151'
+                'LGA1200',
+                'AM4',
+                'LGA1700',
+                'TR4',
+                'LGA1151'
             ]),
 
             'chipset' => $this->faker->randomElement([
-                'Z590', 'B550', 'X570', 'H470', 'Z690'
+                'Z590',
+                'B550',
+                'X570',
+                'H470',
+                'Z690'
             ]),
 
             'memory_technology' => $this->faker->randomElement([
-                'DDR4', 'DDR5'
+                'DDR4',
+                'DDR5'
             ]),
 
             'form_factor' => $this->faker->randomElement([
-                'ATX', 'Micro-ATX', 'Mini-ITX', 'E-ATX'
+                'ATX',
+                'Micro-ATX',
+                'Mini-ITX',
+                'E-ATX'
             ]),
         ];
     }
