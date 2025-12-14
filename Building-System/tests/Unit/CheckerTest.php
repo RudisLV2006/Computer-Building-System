@@ -10,7 +10,7 @@ uses(Tests\TestCase::class, RefreshDatabase::class);
 
 
 it('can get compactible products', function () {
-    $type = 'mobo';
+    $type = 'motherboard';
     CPUSpec::factory()->create();
     $build = new Build(null);
     $build->addItem("cpu", CPUSpec::first()->product_id);
@@ -34,10 +34,10 @@ it('can return error message with wrong selected parts', function () {
     $build = new Build(null);
 
     $build->addItem("cpu", $cpu->product_id);
-    $build->addItem("mobo", $mobo->product_id);
+    $build->addItem("motherboard", $mobo->product_id);
 
     $checker = new CompactibilityChecker($build);
-    $pairKey = $checker->createKeyPairs("cpu", "mobo", "socket", "socket");
+    $pairKey = $checker->createKeyPairs("cpu", "motherboard", "socket", "socket");
     $result = $checker->validateBuild();
 
     expect($result)->toBeArray()->not()->toBeEmpty();

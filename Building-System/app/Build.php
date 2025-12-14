@@ -31,12 +31,16 @@ class Build
     public function getField($type, $field)
     {
         $model = $this->loadModel($type);
+        if (isset($this->items[$type][0])) {
+            return $model[0]->{$field} ?? null;
+        }
+
         return $model->{$field} ?? null;
     }
     public function getProduct($type)
     {
         $model = $this->loadModel($type);
-        if ($model instanceof \Illuminate\Database\Eloquent\Collection) {
+        if (isset($this->items[$type][0])) {
             return $model->map(fn($item) => $item->product);
         }
         return $model ? $model->product : null;

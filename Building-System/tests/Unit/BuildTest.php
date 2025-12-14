@@ -26,18 +26,18 @@ it('can load CPU and its specs with type', function () {
 
     $build = new Build(null);
     $build->addItem($type, $productId);
-    
+
     $result = $build->loadModel($type);
     // dd($result);
-    
+
     expect($result)->not()->toBeNull();
-    
+
     // Convert to array to check for 'product' key
     expect($result)->toHaveKey('product');
 });
 
 it('can load motherboard and its specs with type', function () {
-    $type = 'mobo';
+    $type = 'motherboard';
     $productId = 1;
 
     // Seed product with the exact ID
@@ -53,11 +53,11 @@ it('can load motherboard and its specs with type', function () {
 
     $build = new Build(null);
     $build->addItem($type, $productId);
-    
+
     $result = $build->loadModel($type);
-    
+
     expect($result)->not()->toBeNull();
-    
+
     // Convert to array to check for 'product' key
     expect($result)->toHaveKey('product');
 });
@@ -70,7 +70,7 @@ test('build has type', function () {
     $build->addItem($type, $productId);
 
     $result = $build->hasItem($type);
-    
+
     expect($result)->toBeTrue();
 });
 
@@ -82,7 +82,7 @@ test('build wrong type input', function () {
     $build->addItem("cpu", $productId);
 
     $result = $build->hasItem($type);
-    
+
     expect($result)->toBeFalse();
 });
 
@@ -105,7 +105,7 @@ it('can get product specs', function () {
     $build->addItem($type, $productId);
 
     $result = $build->getSpec($type);
-    
+
     expect($result)->not()->toBeNull();
     expect($result)->toHaveKey('product');
 });
@@ -129,7 +129,7 @@ it('can not get product specs because false type', function () {
     $build->addItem("mobo", $productId);
 
     $result = $build->getSpec($type);
-    
+
     expect($result)->toBeNull();
 });
 
@@ -153,14 +153,13 @@ it('overwrites an item when adding same type twice', function () {
     expect($items['cpu'])->toBe(['product_id' => 2]);
 });
 
-it('can give an field by its name', function(){
+it('can give an field by its name', function () {
     $build = new Build(null);
-    CPUSpec::factory()->create(["socket"=>"test"]);
-    $build->addItem("cpu",CPUSpec::first()->product_id);
+    CPUSpec::factory()->create(["socket" => "test"]);
+    $build->addItem("cpu", CPUSpec::first()->product_id);
 
     $result = $build->getField("cpu", "socket");
 
     expect($result)->not()->toBeNull();
     expect($result)->toBe("test");
 });
-
