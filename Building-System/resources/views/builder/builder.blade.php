@@ -5,8 +5,8 @@
             <p class="builder-subtitle">Select components for your custom build</p>
 
             @if(Session('incompacting'))
-                @foreach($messages as $message)
-                @endforeach
+            @foreach($messages as $message)
+            @endforeach
             @endif
 
         </div>
@@ -21,22 +21,37 @@
                 </thead>
                 <tbody>
                     @foreach($types as $type)
-                        <tr>
-                            <td>
-                                <a href="{{ route('products.byType', ['type' => $type]) }}" class="part-name-link">
-                                    {{ ucfirst($type) }}
+                    <tr>
+                        <td>
+                            <a href="{{ route('products.byType', ['type' => $type]) }}" class="part-name-link">
+                                {{ ucfirst($type) }}
+                            </a>
+                        </td>
+                        <td>
+                            @if($type === 'ram' && $cart->hasItem('ram'))
+                            <div class="selected-product">
+                                @foreach($cart->getProduct('ram') as $ram)
+                                <strong class="product-name">{{ $ram['name'] }}</strong>
+                                @endforeach
+
+                                <a href="{{ route('products.byType', ['type' => 'ram']) }}"
+                                    class="check-link">
+                                    + Add another RAM
                                 </a>
-                            </td>
-                            <td>
-                                @if($cart->hasItem($type))
-                                    <div class="selected-product">
-                                        <strong class="product-name">{{ $cart->getProduct($type)["name"] }}</strong>
-                                    </div>
-                                @else
-                                    <span class="not-selected">Not selected</span>
-                                @endif
-                            </td>
-                        </tr>
+                            </div>
+                            @elseif($cart->hasItem($type))
+                            <strong class="product-name">
+                                {{ $cart->getProduct($type)['name'] }}
+                            </strong>
+                            @else
+                            <a href="{{ route('products.byType', ['type' => $type]) }}"
+                                class="check-link">
+                                + Add {{ ucfirst($type) }}
+                            </a>
+                            @endif
+
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
