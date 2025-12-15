@@ -14,7 +14,7 @@ class CompactibilityChecker
             ['requires' => 'ram', 'field' => 'memory_technology', 'match_field' => 'memory_type']
         ],
         'ram' => [
-            ['requires'    => 'motherboard', 'field' => 'memory_type', 'match_field' => 'memory_technology',],
+            ['requires'=> 'motherboard', 'field' => 'memory_type', 'match_field' => 'memory_technology',],
         ]
     ];
     public function __construct(Build $build)
