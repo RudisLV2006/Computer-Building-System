@@ -30,12 +30,12 @@ class Build
     }
     public function getField($type, $field)
     {
-        $model = $this->loadModel($type);
-        if (in_array($type, ['ram'])) {
-            \Log::debug($model);
-            return $model[0]->{$field} ?? null;
+        if ($this->isQuantifiableType($type)) {
+            $model = $this->loadSingleModel($type);
+            return $model?->{$field};
         }
 
+        $model = $this->loadModel($type);
         return $model->{$field} ?? null;
     }
     public function getProduct($type)
@@ -44,7 +44,7 @@ class Build
         if (in_array($type, ['ram'])) {
             return $model->map(fn($item) => $item->product);
         }
-        return $model ? $model->product : null;
+        return $model?->product;
     }
     public function getItems()
     {
