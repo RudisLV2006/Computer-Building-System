@@ -2,47 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\ProductTypeRegistry;
 use App\CompactibilityChecker;
 use App\Build;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function selectCategories()
     {
-        $types = ProductTypeRegistry::returnTypes();
-        return view("product.choise", compact("types"));
+        $categories = ProductTypeRegistry::all();
+        return view("product.choise", compact("categories"));
     }
-    public function listByType($type)
+    public function index($category)
     {
-        if (!ProductTypeRegistry::exists($type)) {
+        if (!ProductTypeRegistry::exists($category)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-        $model = ProductTypeRegistry::getModel($type);
+        $model = ProductTypeRegistry::getModel($category);
         $query = $model::with('product');
         if (session()->has('Builder.cart')) {
             $build = new Build(session()->get('Builder.cart'));
             $checker = new CompactibilityChecker($build);
-            $query = $checker->getCompactibleProduct($type, $query);
+            $query = $checker->getCompactibleProduct($category, $query);
         }
         $items = $query->get();
-        return view("product.type", compact("items", "type"));
+        return view("product.type", compact("category", "items"));
     }
 
-    public function showSpec($type, $id)
+    public function show($category, $product)
     {
-        if (!ProductTypeRegistry::exists($type)) {
+        if (!ProductTypeRegistry::exists($category)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-        $model = ProductTypeRegistry::getModel($type);
-        $itemModel = $model::with('product')->findOrFail($id);
-        $product = $itemModel->product;
-        $view = "product.views.{$type}";
+        $model = ProductTypeRegistry::getModel($category);
+        $item = $model::with('product')->findOrFail($product);
+        $view = "product.views.{$category}";
         return view($view, [
-            'item' => $itemModel,
-            'product' => $product,
-            'type' => $type
+            'category' => $category,
+            'item' => $item,
         ]);
     }
 }

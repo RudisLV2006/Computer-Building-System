@@ -22,7 +22,7 @@ class ProductTypeRegistry
     {
         return isset(self::$typeMap[$type]);
     }
-    public static function returnTypes()
+    public static function all()
     {
         return array_keys(self::$typeMap);
     }

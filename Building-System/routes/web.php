@@ -4,16 +4,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BuilderController;
 
-Route::get('/', function(){
-    return redirect()->route("products.index");
+Route::get('/', function () {
+    return redirect()->route("components.choose");
 });
 
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/{type}', [ProductController::class, 'listByType'])->name('products.byType');
-Route::get('/products/{type}/{id}', [ProductController::class, 'showSpec'])->name('products.showSpec');
+Route::prefix('components')->name('components.')->group(function () {
+    Route::get('/', [ProductController::class, 'selectCategories'])->name('choose');
+    Route::get('/{category}', [ProductController::class, 'index'])->name('index');
+    Route::get('/{category}/{product}', [ProductController::class, 'show'])->name('show');
+});
 
-
-
-Route::get('/builder', [BuilderController::class, 'index'])->name('builder.index');
-Route::post('/builder/{type}/{id}', [BuilderController::class, 'addItem'])->name('builder.addItem');
-Route::get('/debug', [BuilderController::class, 'debug'])->name('builder.debug');
+Route::prefix('builder')->name('builder.')->group(function () {
+    Route::get('/', [BuilderController::class, 'index'])->name('index');
+    Route::post('/components/{category}/{product}', [BuilderController::class, 'store'])->name('store');
+    Route::get('/debug', [BuilderController::class, 'debug'])->name('debug');
+});

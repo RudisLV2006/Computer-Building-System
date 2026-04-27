@@ -1,21 +1,21 @@
 <x-layout title="All product by type">
-    <a href="{{ route('products.index') }}" class="back">← Back to Product Types</a>
+    <a href="{{ route('components.choose') }}" class="back">← Back to Product Components</a>
     <a href="{{ route('builder.debug') }}" class="back">Debug</a>
 
     <h1>Available Products</h1>
 
     <div class="product-list">
         @foreach ($items as $item)
-            <div class="product-item">
-                <p class="product-name">{{ $item->product->name }}</p>
-                <a href="{{ route('products.showSpec', ['type' => $type, 'id' => $item->product_id]) }}" class="check-link">
-                    View Details
-                </a>
-                <form action="{{route('builder.addItem', ['type' => $type, 'id' => $item->product_id])}}" method="post">
-                    @csrf
-                    <button>Add</button>
-                </form>
-            </div>
+        <div class="product-item">
+            <p class="product-name">{{ $item->product->name }}</p>
+            <a href="{{ route('components.show', ['category' => $category, 'product' => $item]) }}" class="check-link">
+                View Details
+            </a>
+            <form action="{{route('builder.store', ['category' => $category, 'product' => $item])}}" method="post">
+                @csrf
+                <button>Add</button>
+            </form>
+        </div>
         @endforeach
     </div>
 </x-layout>

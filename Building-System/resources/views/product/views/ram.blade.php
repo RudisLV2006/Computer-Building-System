@@ -1,17 +1,16 @@
 <x-layout title="Check RAM specs">
-    <a href="{{ route('products.byType', $type) }}" class="back">← Back to RAM</a>
+    <a href="{{ route('components.index', $category) }}" class="back">← Back to RAM</a>
 
     <div class="product-view">
         <div class="product-header">
-            <h1>{{ $product->name }}</h1>
+            <h1>{{ $item->product->name }}</h1>
             <span class="product-type">Memory (RAM)</span>
         </div>
 
         <div class="product-content">
             <div class="product-image">
                 <img
-                    src="{{ $product->image ?? 'https://placehold.co/300?text=' . urlencode($product->name) }}"
-                    alt="{{ $product->name }}">
+                    src="{{ $product->image ?? 'https://placehold.co/300?text=' . urlencode($item->product->name) }}">
             </div>
 
             <div class="product-details">

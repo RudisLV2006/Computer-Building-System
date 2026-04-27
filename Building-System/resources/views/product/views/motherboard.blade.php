@@ -1,17 +1,17 @@
 <x-layout title="Check mobo specs">
-    <a href="{{ route('products.byType', $type) }}" class="back">← Back to Motherboards</a>
-    
+    <a href="{{ route('components.index', $category) }}" class="back">← Back to Motherboards</a>
+
     <div class="product-view">
         <div class="product-header">
-            <h1>{{ $product->name }}</h1>
+            <h1>{{ $item->product->name }}</h1>
             <span class="product-type">Motherboard</span>
         </div>
-        
+
         <div class="product-content">
             <div class="product-image">
-                <img src="{{$product->image ?? 'https://placehold.co/300?text=' . urlencode($product->name) }}">
+                <img src="{{$product->image ?? 'https://placehold.co/300?text=' . urlencode($item->product->name) }}">
             </div>
-            
+
             <div class="product-details">
                 <h2>Specifications</h2>
                 <table>
@@ -32,7 +32,7 @@
                         <td>{{ $item->memory_technology }}</td>
                     </tr>
                 </table>
-                
+
             </div>
         </div>
     </div>

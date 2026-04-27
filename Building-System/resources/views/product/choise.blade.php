@@ -2,8 +2,8 @@
 
     <div class="choice">
         <h1>Choose Product Type</h1>
-        @foreach ($types as $type)
-        <a href="{{ route('products.byType', ['type' => $type]) }}">GET ALL {{strtoupper($type)}}</a>
+        @foreach ($categories as $category)
+        <a href="{{ route('components.index', ['category' => $category]) }}">GET ALL {{strtoupper($category)}}</a>
         @endforeach
     </div>
 
