@@ -8,109 +8,77 @@ use App\ProductTypeRegistry;
 // Tiek pielietota, lai saglabātu objektu Laravel sesija.
 class Build
 {
-    public $items = null;
+    public array $items = [];
+    private array $modelCache = [];
 
-    public function __construct($oldcart)
+    public function __sleep()
     {
-        $this->items = $oldcart->items ?? [];
+        // Mēs atgriežam tikai tos mainīgos, kas reāli veido grozu.
+        // 'modelCache' šeit NAV iekļauts, tāpēc tas sesijā netiks saglabāts vispār!
+        return ["items"];
     }
-    public function hasItem($type)
+    public function __construct(?self $oldcart = null)
     {
-        if ($type === 'ram') {
-            return !empty($this->items['ram'] ?? []);
-        }
-        return isset($this->items[$type]);
-    }
-
-    // Palīgu metodes, kuras sniedz palīdzību iegūt datus no sesijas
-    public function getSpec($type)
-    {
-        $model = $this->loadModel($type);
-        return $model ?? null;
-    }
-    public function getField($type, $field)
-    {
-        if ($this->isQuantifiableType($type)) {
-            $model = $this->loadSingleModel($type);
-            return $model?->{$field};
-        }
-
-        $model = $this->loadModel($type);
-        return $model->{$field} ?? null;
+        $this->items = $oldcart?->items ?? [];
     }
     public function getProduct($type)
     {
         $model = $this->loadModel($type);
-        if (in_array($type, ['ram'])) {
-            return $model->map(fn($item) => $item->product);
-        }
         return $model?->product;
     }
-    public function getItems()
+    public function getField($type, $field)
     {
-        return $this->items;
+        $model = $this->loadModel($type);
+        return $model->{$field} ?? null;
     }
-
+    public function initCache()
+    {
+        foreach ($this->items as $type => $products) {
+            foreach ($products as $id => $data) {
+                $this->loadModel($type, $id);
+            }
+        }
+    }
     public function addItem($type, $id)
     {
-        if ($type === 'ram') {
-            if (!isset($this->items['ram'][$id])) {
-                $this->items['ram'][$id] = 0;
-            }
-
-            $this->items['ram'][$id]++;
-            return;
+        if (!isset($this->items[$type][$id])) {
+            $this->items[$type][$id] = [
+                "product_id" => $id,
+                "count" => 0
+            ];
         }
-        $this->items[$type] = [
-            "product_id" => $id,
-        ];
+
+        if (in_array($type, ["ram"])) {
+            $this->items[$type][$id]['count']++;
+        } else {
+            // Pārraksta — tikai viens var būt
+            $this->items[$type] = [
+                $id => ["product_id" => $id, "count" => 1]
+            ];
+        }
     }
-    public function loadModel($type)
+
+    public function loadModel($type, $id = null)
     {
-        if (!$this->hasItem($type)) {
+        $id = $id ?? array_key_first($this->items[$type]);
+        if (isset($this->modelCache[$type][$id])) {
+            return $this->modelCache[$type][$id];
+        }
+
+        if (!ProductTypeRegistry::exists($type) || !isset($this->items[$type])) {
             return null;
         }
         $model = ProductTypeRegistry::getModel($type);
-        if ($this->isQuantifiableType($type)) {
-            return $this->loadMultipleInstances($type, $model);
-        }
-        $productId = $this->items[$type]["product_id"];
-        return $model::with('product')->find($productId);
+        $productId = $this->items[$type][$id]["product_id"];
+        return $this->modelCache[$type][$id] = $model::with('product')->find($productId);
     }
-    protected function isQuantifiableType($type)
+
+    public function hasItem($type)
     {
-        // Consider moving to config: config('cart.quantifiable_types')
-        return in_array($type, ['ram']);
+        return isset($this->items[$type]);
     }
-    protected function loadMultipleInstances($type, $model)
+    public function debugCache()
     {
-        $items = $this->items[$type];
-
-        $models = $model::with('product')
-            ->whereIn('product_id', array_keys($items))
-            ->get()
-            ->keyBy('product_id');
-
-        \Log::debug('Loaded base models', ['type' => $type, 'count' => $models->count()]);
-
-        $instances = collect();
-
-        foreach ($items as $productId => $quantity) {
-            if (!isset($models[$productId])) {
-                \Log::warning("Product not found", ['type' => $type, 'product_id' => $productId]);
-                continue;
-            }
-
-            // Add original + clones
-            $instances->push($models[$productId]);
-
-            for ($i = 1; $i < $quantity; $i++) {
-                $instances->push(clone $models[$productId]);
-            }
-        }
-
-        \Log::debug('Generated instances', ['type' => $type, 'total' => $instances->count()]);
-
-        return $instances;
+        print_r($this->modelCache);
     }
 }

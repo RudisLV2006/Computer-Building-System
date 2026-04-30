@@ -11,14 +11,12 @@ class BuilderController extends Controller
 {
     public function index()
     {
-        $types = ProductTypeRegistry::returnTypes();
-        $cart = session()->get('Builder.cart', new Build([]));
-        // $checker = new CompactibilityChecker($cart);
-        // $error = $checker->reviewBuild();
-        return view("builder.builder", compact("types", 'cart'));
+        $categories = ProductTypeRegistry::all();
+        $cart = session()->get('Builder.cart', new Build());
+        return view("builder.builder", compact("categories", 'cart'));
     }
 
-    public function addItem(Request $request, $type, $id)
+    public function store($type, $id)
     {
 
         if (!ProductTypeRegistry::exists($type)) {

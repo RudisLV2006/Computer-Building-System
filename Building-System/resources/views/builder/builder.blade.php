@@ -20,36 +20,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($types as $type)
+                    @foreach($categories as $category)
                     <tr>
                         <td>
-                            <a href="{{ route('products.byType', ['type' => $type]) }}" class="part-name-link">
-                                {{ ucfirst($type) }}
+                            <a href="{{ route('components.index', ['category' => $category]) }}" class="part-name-link">
+                                {{ ucfirst($category) }}
                             </a>
                         </td>
                         <td>
-                            @if($type === 'ram' && $cart->hasItem('ram'))
-                            <div class="selected-product">
-                                @foreach($cart->getProduct('ram') as $ram)
-                                <strong class="product-name">{{ $ram['name'] }}</strong>
-                                @endforeach
-
-                                <a href="{{ route('products.byType', ['type' => 'ram']) }}"
-                                    class="check-link">
-                                    + Add another RAM
-                                </a>
-                            </div>
-                            @elseif($cart->hasItem($type))
+                            @if($cart->hasItem($category))
                             <strong class="product-name">
-                                {{ $cart->getProduct($type)['name'] }}
+                                {{ $cart->getProduct($category)['name'] }}
                             </strong>
                             @else
-                            <a href="{{ route('products.byType', ['type' => $type]) }}"
+                            <a href="{{ route('components.index', ['category' => $category]) }}"
                                 class="check-link">
-                                + Add {{ ucfirst($type) }}
+                                + Add {{ ucfirst($category) }}
                             </a>
                             @endif
-
                         </td>
                     </tr>
                     @endforeach
