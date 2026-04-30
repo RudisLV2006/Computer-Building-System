@@ -21,61 +21,61 @@ class Build
     {
         $this->items = $oldcart?->items ?? [];
     }
-    public function getProduct($type)
+    public function getProduct($category)
     {
-        $model = $this->loadModel($type);
+        $model = $this->loadModel($category);
         return $model?->product;
     }
-    public function getField($type, $field)
+    public function getField($category, $field)
     {
-        $model = $this->loadModel($type);
+        $model = $this->loadModel($category);
         return $model->{$field} ?? null;
     }
     public function initCache()
     {
-        foreach ($this->items as $type => $products) {
+        foreach ($this->items as $category => $products) {
             foreach ($products as $id => $data) {
-                $this->loadModel($type, $id);
+                $this->loadModel($category, $id);
             }
         }
     }
-    public function addItem($type, $id)
+    public function addItem($category, $id)
     {
-        if (!isset($this->items[$type][$id])) {
-            $this->items[$type][$id] = [
+        if (!isset($this->items[$category][$id])) {
+            $this->items[$category][$id] = [
                 "product_id" => $id,
                 "count" => 0
             ];
         }
 
-        if (in_array($type, ["ram"])) {
-            $this->items[$type][$id]['count']++;
+        if (ProductTypeRegistry::isMultiple($category)) {
+            $this->items[$category][$id]['count']++;
         } else {
             // Pārraksta — tikai viens var būt
-            $this->items[$type] = [
+            $this->items[$category] = [
                 $id => ["product_id" => $id, "count" => 1]
             ];
         }
     }
 
-    public function loadModel($type, $id = null)
+    public function loadModel($category, $id = null)
     {
-        $id = $id ?? array_key_first($this->items[$type]);
-        if (isset($this->modelCache[$type][$id])) {
-            return $this->modelCache[$type][$id];
+        $id = $id ?? array_key_first($this->items[$category]);
+        if (isset($this->modelCache[$category][$id])) {
+            return $this->modelCache[$category][$id];
         }
 
-        if (!ProductTypeRegistry::exists($type) || !isset($this->items[$type])) {
+        if (!ProductTypeRegistry::exists($category) || !isset($this->items[$category])) {
             return null;
         }
-        $model = ProductTypeRegistry::getModel($type);
-        $productId = $this->items[$type][$id]["product_id"];
-        return $this->modelCache[$type][$id] = $model::with('product')->find($productId);
+        $model = config('builder.categories')[$category];
+        $productId = $this->items[$category][$id]["product_id"];
+        return $this->modelCache[$category][$id] = $model::with('product')->find($productId);
     }
 
-    public function hasItem($type)
+    public function hasItem($category)
     {
-        return isset($this->items[$type]);
+        return isset($this->items[$category]);
     }
     public function debugCache()
     {

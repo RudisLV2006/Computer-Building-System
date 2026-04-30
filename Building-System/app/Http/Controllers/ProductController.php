@@ -18,12 +18,12 @@ class ProductController extends Controller
         if (!ProductTypeRegistry::exists($category)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-        $model = ProductTypeRegistry::getModel($category);
+        $model = config('builder.categories')[$category];
         $query = $model::with('product');
         if (session()->has('Builder.cart')) {
             $build = new Build(session()->get('Builder.cart'));
             $checker = new CompactibilityChecker($build);
-            $query = $checker->getCompactibleProduct($category, $query);
+            // $query = $checker->getCompactibleProduct($category, $query);
         }
         $items = $query->get();
         return view("product.type", compact("category", "items"));
@@ -34,7 +34,7 @@ class ProductController extends Controller
         if (!ProductTypeRegistry::exists($category)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-        $model = ProductTypeRegistry::getModel($category);
+        $model = config('builder.categories')[$category];
         $item = $model::with('product')->findOrFail($product);
         $view = "product.views.{$category}";
         return view($view, [
