@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class CoolerSocket extends Model
+{
+    protected $fillable = ['cooler_id', 'socket'];
+    //
+}

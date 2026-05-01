@@ -54,7 +54,8 @@ class MotherboardSpecFactory extends Factory
                 'DDR4',
                 'DDR5'
             ]),
-
+            'memory_slots' => fake()->randomElement([2, 4]),
+            'pcie_version' => fake()->randomElement(['4.0', '5.0']),
             'form_factor' => $this->faker->randomElement([
                 'ATX',
                 'Micro-ATX',

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cooler_socket', function (Blueprint $table) {
-            $table->foreignId('cooler_id');
+        Schema::create('cooler_sockets', function (Blueprint $table) {
+            $table->foreignId('cooler_id')->constrained('cpu_cooler_specs', 'product_id')->cascadeOnDelete();
             $table->string('socket');
-            $table->index('socket');
             $table->timestamps();
+
+            $table->unique(['cooler_id', 'socket']);
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cooler_socket');
+        Schema::dropIfExists('cooler_sockets');
     }
 };

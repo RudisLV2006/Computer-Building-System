@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('storage_specs', function (Blueprint $table) {
-            $table->id();
+            $table->foreignId('product_id')->primary()->constrained()->onDelete('cascade');
             $table->unsignedSmallInteger('capacity_gb');
             $table->string('type');       // SSD, HDD, NVMe
             $table->string('form_factor'); // 2.5", 3.5", M.2

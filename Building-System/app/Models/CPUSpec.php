@@ -14,8 +14,6 @@ class CpuSpec extends Model
     use HasFactory;
 
     protected $primaryKey = 'product_id';
-    public $incrementing = false;
-    // protected $table = 'cpu_specs';
 
     public function product(): BelongsTo
     {

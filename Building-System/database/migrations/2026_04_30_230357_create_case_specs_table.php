@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('case_specs', function (Blueprint $table) {
-            $table->id();
+            $table->foreignId('product_id')->primary()->constrained()->onDelete('cascade');
             $table->string("manufacturer");
             $table->string("case_type");
             $table->unsignedSmallInteger("max_gpu_length_mm")->comment("Maximum length for gpu to fit inside case");

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('psu_specs', function (Blueprint $table) {
-            $table->id();
+            $table->foreignId('product_id')->primary()->constrained()->onDelete('cascade');
             $table->string("manufacturer");
             $table->string("psu_type");
             $table->unsignedSmallInteger("wattage_w")->comment("Power consumption in Watts");

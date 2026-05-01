@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PsuSpec extends Model
+class StorageSpec extends Model
 {
     use HasFactory;
     protected $primaryKey = 'product_id';

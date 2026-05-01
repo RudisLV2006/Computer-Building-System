@@ -12,8 +12,6 @@ class MotherboardSpec extends Model
     use HasFactory;
 
     protected $primaryKey = 'product_id';
-    public $incrementing = false;
-    // protected $table = 'motherboard_specs';
 
     public function product(): BelongsTo
     {

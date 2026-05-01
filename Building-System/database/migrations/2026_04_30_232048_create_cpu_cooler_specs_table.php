@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cpu_cooler_specs', function (Blueprint $table) {
-            $table->id();
+            $table->foreignId('product_id')->primary()->constrained()->onDelete('cascade');
             $table->string("manufacturer");
             $table->unsignedSmallInteger("wattage_w")->comment("Power consumption in Watts");
             $table->unsignedSmallInteger("height_mm")->comment("Power consumption in Watts");
