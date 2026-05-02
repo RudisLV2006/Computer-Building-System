@@ -3,7 +3,7 @@
     <div class="choice">
         <h1>Choose Product Type</h1>
         @foreach ($categories as $category)
-        <a href="{{ route('components.index', ['category' => $category]) }}">GET ALL {{strtoupper($category)}}</a>
+        <a href="{{ route('components.index', ['category' => $category]) }}">GET ALL {{strtoupper(str_replace('-', ' ', $category))}}</a>
         @endforeach
     </div>
 

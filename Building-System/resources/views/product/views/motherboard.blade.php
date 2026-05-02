@@ -1,39 +1,34 @@
-<x-layout title="Check mobo specs">
-    <a href="{{ route('components.index', $category) }}" class="back">← Back to Motherboards</a>
+<x-category title="Check motherboard specs" :category="$category" :item="$item">
 
-    <div class="product-view">
-        <div class="product-header">
-            <h1>{{ $item->product->name }}</h1>
-            <span class="product-type">Motherboard</span>
-        </div>
+    <x-slot name="type">
+        <span class="product-type">Motherboard</span>
+    </x-slot>
 
-        <div class="product-content">
-            <div class="product-image">
-                <img src="{{$product->image ?? 'https://placehold.co/300?text=' . urlencode($item->product->name) }}">
-            </div>
-
-            <div class="product-details">
-                <h2>Specifications</h2>
-                <table>
-                    <tr>
-                        <th>Socket</th>
-                        <td>{{ $item->socket }}</td>
-                    </tr>
-                    <tr>
-                        <th>Chipset</th>
-                        <td>{{ $item->chipset }}</td>
-                    </tr>
-                    <tr>
-                        <th>Form Factor</th>
-                        <td>{{ $item->form_factor }}</td>
-                    </tr>
-                    <tr>
-                        <th>Memory Type</th>
-                        <td>{{ $item->memory_technology }}</td>
-                    </tr>
-                </table>
-
-            </div>
-        </div>
-    </div>
-</x-layout>
+    <h2>Specifications</h2>
+    <table>
+        <tr>
+            <th>Socket</th>
+            <td>{{ $item->socket }}</td>
+        </tr>
+        <tr>
+            <th>Chipset</th>
+            <td>{{ $item->chipset }}</td>
+        </tr>
+        <tr>
+            <th>Form Factor</th>
+            <td>{{ $item->form_factor }}</td>
+        </tr>
+        <tr>
+            <th>Memory Type</th>
+            <td>{{ $item->memory_technology }}</td>
+        </tr>
+        <tr>
+            <th>Memory Slots</th>
+            <td>{{ $item->memory_slots }}</td>
+        </tr>
+        <tr>
+            <th>Pci Express</th>
+            <td>{{ $item->pcie_version }}</td>
+        </tr>
+    </table>
+</x-category>

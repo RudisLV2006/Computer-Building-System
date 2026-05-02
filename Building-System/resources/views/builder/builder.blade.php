@@ -24,7 +24,7 @@
                     <tr>
                         <td>
                             <a href="{{ route('components.index', ['category' => $category]) }}" class="part-name-link">
-                                {{ ucfirst($category) }}
+                                {{ ucfirst(str_replace('-', ' ', $category)) }}
                             </a>
                         </td>
                         <td>

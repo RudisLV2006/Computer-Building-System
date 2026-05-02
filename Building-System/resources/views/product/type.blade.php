@@ -7,7 +7,7 @@
     <div class="product-list">
         @foreach ($items as $item)
         <div class="product-item">
-            <p class="product-name">{{ $item->product->name }}</p>
+            <p class="product-name">{{ ucfirst($item->product->name) }}</p>
             <a href="{{ route('components.show', ['category' => $category, 'product' => $item]) }}" class="check-link">
                 View Details
             </a>
