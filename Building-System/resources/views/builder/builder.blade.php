@@ -3,12 +3,6 @@
         <div class="builder-header">
             <h1 class="builder-title">PC Builder</h1>
             <p class="builder-subtitle">Select components for your custom build</p>
-
-            @if(Session('incompacting'))
-            @foreach($messages as $message)
-            @endforeach
-            @endif
-
         </div>
 
         <div class="builder-table">
@@ -28,14 +22,21 @@
                             </a>
                         </td>
                         <td>
-                            @if($cart->hasItem($category))
-                            <strong class="product-name">
-                                {{ $cart->getProduct($category)['name'] }}
-                            </strong>
+                            @if($products->has($category))
+                            @foreach($products[$category] as $product)
+                            <div class="selected-product">
+                                <strong class="product-name">{{ $product->name }}</strong>
+                            </div>
+                            @endforeach
+
+                            @if(in_array($category, config('builder.multiple_allowed')))
+                            <a href="{{ route('components.index', ['category' => $category]) }}" class="btn">
+                                + Add another {{ ucfirst(str_replace('-', ' ', $category)) }}
+                            </a>
+                            @endif
                             @else
-                            <a href="{{ route('components.index', ['category' => $category]) }}"
-                                class="check-link">
-                                + Add {{ ucfirst($category) }}
+                            <a href="{{ route('components.index', ['category' => $category]) }}" class="check-link">
+                                + Add {{ ucfirst(str_replace('-', ' ', $category)) }}
                             </a>
                             @endif
                         </td>

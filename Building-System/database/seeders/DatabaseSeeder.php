@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CaseSpec;
 use App\Models\CpuCoolerSpec;
 use App\Models\MotherboardSpec;
 use App\Models\CpuSpec;
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $count = 10;
+        $count = 50;
         MotherboardSpec::factory()
             ->count($count)
             ->create();
@@ -40,6 +41,9 @@ class DatabaseSeeder extends Seeder
             ->count($count)
             ->create();
         StorageSpec::factory()
+            ->count($count)
+            ->create();
+        CaseSpec::factory()
             ->count($count)
             ->create();
     }
