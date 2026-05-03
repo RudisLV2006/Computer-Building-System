@@ -13,7 +13,7 @@ class ProductController extends Controller
         $categories = ProductTypeRegistry::all();
         return view("product.choise", compact("categories"));
     }
-    public function index($category)
+    public function index(string $category)
     {
         if (!ProductTypeRegistry::exists($category)) {
             return redirect()->back()->withError("This device type doesn't exist");
@@ -21,15 +21,16 @@ class ProductController extends Controller
         $model = config('builder.categories')[$category];
         $query = $model::with('product');
         if (session()->has('Builder.cart')) {
-            $build = new Build(session()->get('Builder.cart'));
+            $oldCartData = session()->get('Builder.cart');
+            $build = new Build($oldCartData);
             $checker = new CompactibilityChecker($build);
-            // $query = $checker->getCompactibleProduct($category, $query);
+            $query = $checker->filter($category, $query);
         }
         $items = $query->get();
         return view("product.type", compact("category", "items"));
     }
 
-    public function show($category, $product)
+    public function show(string $category, string $product)
     {
         if (!ProductTypeRegistry::exists($category)) {
             return redirect()->back()->withError("This device type doesn't exist");
