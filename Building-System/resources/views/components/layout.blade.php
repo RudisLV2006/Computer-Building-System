@@ -11,14 +11,14 @@
 </head>
 
 <body>
-    @if (Session('error'))
-    <p class="text-danger">{{ session('error') }}</p>
-    @endif
-
     <nav>
         <a href="{{route('components.choose')}}">Products</a> |
         <a href="{{route('builder.index')}}">Builder</a>
     </nav>
+
+    @if (Session('error'))
+    <p class="text-danger">{{ session('error') }}</p>
+    @endif
 
     <main>
         {{ $slot }}

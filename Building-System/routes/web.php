@@ -6,7 +6,7 @@ use App\Http\Controllers\BuilderController;
 
 Route::get('/', function () {
     return redirect()->route("components.choose");
-});
+})->name("home");
 
 Route::prefix('components')->name('components.')->group(function () {
     Route::get('/', [ProductController::class, 'selectCategories'])->name('choose');
@@ -17,5 +17,10 @@ Route::prefix('components')->name('components.')->group(function () {
 Route::prefix('builder')->name('builder.')->group(function () {
     Route::get('/', [BuilderController::class, 'index'])->name('index');
     Route::post('/components/{category}/{product}', [BuilderController::class, 'store'])->name('store');
+    Route::delete('/components/{category}/{product}', [BuilderController::class, 'remove'])->name('remove');
     Route::get('/debug', [BuilderController::class, 'debug'])->name('debug');
+});
+
+Route::fallback(function () {
+    return redirect()->route('home');
 });

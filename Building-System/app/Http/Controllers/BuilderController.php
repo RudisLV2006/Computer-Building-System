@@ -13,21 +13,34 @@ class BuilderController extends Controller
     {
         $categories = ProductTypeRegistry::all();
         $cart = session()->get('Builder.cart', new Build());
-        return view("builder.builder", compact("categories", 'cart'));
+        $service = new CompactibilityChecker($cart);
+
+        $errors = $service->validate();
+        $products = $cart->loadProducts();
+        return view("builder.builder", compact("categories", 'products', 'errors'));
     }
 
-    public function store($type, $id)
+    public function store(string $category, string $id)
     {
 
-        if (!ProductTypeRegistry::exists($type)) {
+        if (!ProductTypeRegistry::exists($category)) {
             return redirect()->back()->withError("This device type doesn't exist");
         }
-        $oldCart = session()->get('Builder.cart', []);
-        $cart = new Build($oldCart);
-        $cart->addItem($type, $id);
+        $oldCartData = session()->get('Builder.cart');
+        $cart = new Build($oldCartData);
+        $cart->addItem($category, $id);
         session()->put('Builder.cart', $cart);
         return redirect()->route('builder.index')->with('success', 'Component successfully added');
     }
+    public function remove(string $category, string $id)
+    {
+        $oldCartData = session()->get('Builder.cart');
+        $cart = new Build($oldCartData);
+        $cart->removeItem($category, $id);
+        session()->put('Builder.cart', $cart);
+        return redirect()->route('builder.index')->with('success', 'Component successfully removed');
+    }
+
 
     public function debug()
     {

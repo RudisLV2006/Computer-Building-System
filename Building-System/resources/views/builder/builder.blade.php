@@ -3,6 +3,15 @@
         <div class="builder-header">
             <h1 class="builder-title">PC Builder</h1>
             <p class="builder-subtitle">Select components for your custom build</p>
+
+            @if(!empty($errors))
+            <ul>
+                @foreach($errors as $message)
+                <li>{{ $message }}</li>
+                @endforeach
+            </ul>
+            @endif
+
         </div>
 
         <div class="builder-table">
@@ -23,9 +32,18 @@
                         </td>
                         <td>
                             @if($products->has($category))
-                            @foreach($products[$category] as $product)
+                            @foreach($products[$category] as $item)
                             <div class="selected-product">
-                                <strong class="product-name">{{ $product->name }}</strong>
+                                <strong class="product-name">{{ $item['product']->name }}</strong>
+                                @if($item['count'] > 1)
+                                <span>x{{ $item['count'] }}</span>
+                                @endif
+
+                                <form action="{{route('builder.remove', ['category' => $category, 'product' => $item["product"]->id])}}" method="post">
+                                    @csrf
+                                    @Method("delete")
+                                    <button>delet</button>
+                                </form>
                             </div>
                             @endforeach
 
