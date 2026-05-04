@@ -36,7 +36,7 @@ class CaseRule extends BaseRule implements FilterRule, ValidationRule
 
         if ($this->build->hasItem('gpu')) {
             $length = $this->build->getField('gpu', 'length');
-            $query->where('max_gpu_length', '>=', $length);
+            $query->where('max_gpu_length_mm', '>=', $length);
         }
 
         if ($this->build->hasItem('cpu-cooler')) {

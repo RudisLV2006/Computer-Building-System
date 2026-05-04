@@ -19,11 +19,9 @@ class PsuSpecFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => function () {
-                return Product::factory()->create([
-                    'type' => 'psu',
-                ])->id;
-            },
+            'product_id' => Product::factory()->state([
+                'type' => 'psu',
+            ]),
             'manufacturer' => fake()->randomElement(['Corsair', 'EVGA', 'Seasonic', 'be quiet!', 'NZXT']),
             'psu_type' => fake()->randomElement(['ATX', 'SFX', 'SFX-L']),
             'wattage_w' => fake()->randomElement([550, 650, 750, 850, 1000, 1200]),

@@ -11,6 +11,8 @@ class CpuCoolerSpec extends Model
 {
     use HasFactory;
     protected $primaryKey = 'product_id';
+    public $incrementing = false;
+
 
     public function product(): BelongsTo
     {

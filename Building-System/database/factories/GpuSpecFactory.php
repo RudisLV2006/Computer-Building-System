@@ -19,11 +19,9 @@ class GpuSpecFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => function () {
-                return Product::factory()->create([
-                    'type' => 'gpu',
-                ])->id;
-            },
+            'product_id' => Product::factory()->state([
+                'type' => 'gpu',
+            ]),
             'manufacturer' => fake()->randomElement(['Nvidia', 'AMD', 'Intel']),
             'chipset' => fake()->randomElement(['RTX 4090', 'RTX 4070', 'RX 7900 XT', 'RX 7600']),
             'memory' => fake()->randomElement([8, 12, 16, 24]),

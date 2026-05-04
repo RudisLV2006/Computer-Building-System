@@ -19,11 +19,9 @@ class CaseSpecFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => function () {
-                return Product::factory()->create([
-                    'type' => 'case',
-                ])->id;
-            },
+            'product_id' => Product::factory()->state([
+                'type' => 'case',
+            ]),
             'manufacturer' => fake()->randomElement(['Fractal Design', 'NZXT', 'Lian Li', 'Corsair', 'be quiet!']),
             'case_type' => fake()->randomElement(['ATX Mid Tower', 'ATX Full Tower', 'mATX Mid Tower', 'ITX Desktop', 'ITX Tower']),
             'max_gpu_length_mm' => fake()->randomElement([300, 330, 360, 400]),

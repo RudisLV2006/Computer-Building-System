@@ -18,11 +18,9 @@ class CpuSpecFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => function () {
-                return Product::factory()->create([
-                    'type' => 'cpu',
-                ])->id;
-            },
+            'product_id' => Product::factory()->state([
+                'type' => 'cpu',
+            ]),
             'manufacturer' => $this->faker->randomElement([
                 'AMD',
                 'INTEL',

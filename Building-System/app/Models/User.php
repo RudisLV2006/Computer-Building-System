@@ -15,10 +15,11 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    protected $primaryKey = 'id';
 
     public function builds(): HasMany
     {
-        return $this->hasMany(Build::class);
+        return $this->hasMany(Builds::class);
     }
 
     /**

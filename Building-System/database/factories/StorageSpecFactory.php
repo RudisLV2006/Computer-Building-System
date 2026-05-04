@@ -30,11 +30,9 @@ class StorageSpecFactory extends Factory
             'NVMe' => fake()->randomElement(['PCIe 3.0', 'PCIe 4.0']),
         };
         return [
-            'product_id' => function () {
-                return Product::factory()->create([
-                    'type' => 'storage',
-                ])->id;
-            },
+            'product_id' => Product::factory()->state([
+                'type' => 'storage',
+            ]),
             'capacity_gb' => fake()->randomElement([256, 512, 1024, 2048, 4096]),
             'type' => $type,
             'form_factor' => $formFactor,

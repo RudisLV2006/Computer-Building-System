@@ -20,11 +20,9 @@ class RamSpecFactory extends Factory
         $memoryType = $this->faker->randomElement(['DDR4', 'DDR5']);
 
         return [
-            'product_id' => function () {
-                return Product::factory()->create([
-                    'type' => 'ram',
-                ])->id;
-            },
+            'product_id' => Product::factory()->state([
+                'type' => 'ram',
+            ]),
 
             'manufacturer' => $this->faker->randomElement([
                 'Corsair',

@@ -20,11 +20,9 @@ class MotherboardSpecFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => function () {
-                return Product::factory()->create([
-                    'type' => 'motherboard',
-                ])->id;
-            },
+            'product_id' => Product::factory()->state([
+                'type' => 'motherboard',
+            ]),
             'manufacturer' => $this->faker->randomElement([
                 'ASUS',
                 'Gigabyte',

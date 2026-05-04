@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('motherboard_specs', function (Blueprint $table) {
-            $table->foreignId('product_id')->primary()->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger("product_id");
+            $table->primary('product_id');
             $table->string("manufacturer");
             $table->string("series");
             $table->string("socket");

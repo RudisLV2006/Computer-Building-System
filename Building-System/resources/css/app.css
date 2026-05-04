@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "./product.css";
 @import "./builder.css";
-@import "./auth.css";
 
 /* === 1. VARIABLES === */
 :root {

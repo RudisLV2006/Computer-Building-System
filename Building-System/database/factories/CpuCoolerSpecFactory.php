@@ -20,11 +20,9 @@ class CpuCoolerSpecFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => function () {
-                return Product::factory()->create([
-                    'type' => 'cpu-cooler',
-                ])->id;
-            },
+            'product_id' => Product::factory()->state([
+                'type' => 'cpu-cooler',
+            ]),
             'manufacturer' => fake()->randomElement(['Noctua', 'be quiet!', 'Cooler Master', 'Arctic', 'DeepCool']),
             'wattage_w' => fake()->randomElement([5, 7, 10, 15]),
             'height_mm' => fake()->randomElement([120, 150, 155, 158, 165]),
