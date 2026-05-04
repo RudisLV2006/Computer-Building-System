@@ -15,7 +15,7 @@ class PsuRule extends BaseRule implements ValidationRule
             return [];
         }
 
-        $psuWattage = $this->build->getField('psu', 'wattage');
+        $psuWattage = $this->build->getField('psu', 'wattage_w');
         $totalWattage = 0;
 
         if ($this->build->hasItem('cpu')) {
