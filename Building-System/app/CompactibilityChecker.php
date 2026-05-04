@@ -7,6 +7,7 @@ use App\Models\Rules\SocketRule as RulesSocketRule;
 use App\Models\Rules\RamTypeRule as RulesRamRule;
 use App\Models\Rules\CaseRule as RulesCaseRule;
 use App\Models\Rules\GpuRule as RulesGpuRule;
+use App\Models\Rules\PsuRule as RulesPsuRule;
 use App\Models\Rules\ValidationRule;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -21,12 +22,12 @@ class CompactibilityChecker
             new RulesRamRule($build),
             new RulesCaseRule($build),
             new RulesGpuRule($build),
+            new RulesPsuRule($build),
         ];
     }
 
     public function filter(string $category, Builder $query)
     {
-        $needed = [];
 
         foreach ($this->rules as $rule) {
             // \Log::debug(class_parents($rule, true));
