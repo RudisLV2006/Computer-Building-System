@@ -18,4 +18,7 @@
         </div>
         @endforeach
     </div>
+
+
+    {{$items->links()}}
 </x-layout>

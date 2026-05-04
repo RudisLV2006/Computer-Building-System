@@ -26,7 +26,7 @@ class ProductController extends Controller
             $checker = new CompactibilityChecker($build);
             $query = $checker->filter($category, $query);
         }
-        $items = $query->get();
+        $items = $query->simplePaginate(15);
         return view("product.type", compact("category", "items"));
     }
 

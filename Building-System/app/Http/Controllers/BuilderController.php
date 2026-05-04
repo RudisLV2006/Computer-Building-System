@@ -13,10 +13,8 @@ class BuilderController extends Controller
     {
         $categories = ProductTypeRegistry::all();
         $cart = session()->get('Builder.cart', new Build());
-        $service = new CompactibilityChecker($cart);
-
-        $errors = $service->validate();
         $products = $cart->loadProducts();
+        $errors = session()->get('Builder.errors', []);
         return view("builder.builder", compact("categories", 'products', 'errors'));
     }
 
@@ -29,6 +27,11 @@ class BuilderController extends Controller
         $oldCartData = session()->get('Builder.cart');
         $cart = new Build($oldCartData);
         $cart->addItem($category, $id);
+
+        $service = new CompactibilityChecker($cart);
+        $errors = $service->validate();
+        session()->put('Builder.errors', $errors);
+
         session()->put('Builder.cart', $cart);
         return redirect()->route('builder.index')->with('success', 'Component successfully added');
     }
@@ -37,6 +40,8 @@ class BuilderController extends Controller
         $oldCartData = session()->get('Builder.cart');
         $cart = new Build($oldCartData);
         $cart->removeItem($category, $id);
+        $checker = new CompactibilityChecker($cart);
+        session()->put('Builder.errors', $checker->validate());
         session()->put('Builder.cart', $cart);
         return redirect()->route('builder.index')->with('success', 'Component successfully removed');
     }
