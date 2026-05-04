@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ProductTypeRegistry;
 use App\Build;
 use App\CompactibilityChecker;
+use App\Models\Builds;
 
 class BuilderController extends Controller
 {
@@ -18,7 +19,7 @@ class BuilderController extends Controller
         return view("builder.builder", compact("categories", 'products', 'errors'));
     }
 
-    public function store(string $category, string $id)
+    public function storeItem(string $category, string $id)
     {
 
         if (!ProductTypeRegistry::exists($category)) {
@@ -45,7 +46,32 @@ class BuilderController extends Controller
         session()->put('Builder.cart', $cart);
         return redirect()->route('builder.index')->with('success', 'Component successfully removed');
     }
+    public function create()
+    {
+        $categories = ProductTypeRegistry::all();
+        $oldCartData = session()->get('Builder.cart');
+        $cart = new Build($oldCartData);
+        $products = $cart->loadProducts();
+        return view("builder.save", compact("products", "categories"));
+    }
+    public function store(Request $request)
+    {
+        $build = Builds::create([
+            'name' => $request->name,
+            'user_id' => auth()->id(),
+        ]);
+        foreach ($request->products as $category => $items) {
+            foreach ($items as $item) {
+                $build->items()->create([
+                    'category' => $category,
+                    'product_id' => $item['id'],
+                    'count' => $item['count'],
+                ]);
+            }
+        }
 
+        return redirect()->route('builder.index');
+    }
 
     public function debug()
     {

@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class BuildItem extends Model
 {
-    public function user(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
+    protected $fillable = [
+        'category',
+        'product_id',
+        'count'
+    ];
 }

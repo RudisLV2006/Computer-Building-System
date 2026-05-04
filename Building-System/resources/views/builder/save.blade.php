@@ -1,19 +1,36 @@
 <x-layout>
     <div class="builder-container">
+
+        {{-- SAVE FORM --}}
         <div class="builder-header">
-            <h1 class="builder-title">PC Builder</h1>
-            <p class="builder-subtitle">Select components for your custom build</p>
+            <h1 class="builder-title">Save Build</h1>
 
-            @if(!empty($errors))
-            <ul>
-                @foreach($errors as $message)
-                <li>{{ $message }}</li>
+            <form action="{{ route('builder.save') }}" method="POST">
+                @csrf
+
+                <div style="margin-bottom: 15px;">
+                    <label for="name">Build Name</label>
+                    <input type="text" name="name" id="name" required placeholder="Enter build name">
+                </div>
+
+                {{-- Pass selected products --}}
+                @foreach($products as $category => $items)
+                @foreach($items as $item)
+                <input type="hidden"
+                    name="products[{{ $category }}][{{ $loop->index }}][id]"
+                    value="{{ $item['product']->id }}">
+
+                <input type="hidden"
+                    name="products[{{ $category }}][{{ $loop->index }}][count]"
+                    value="{{ $item['count'] }}">
                 @endforeach
-            </ul>
-            @endif
+                @endforeach
 
+                <button type="submit">Save Build</button>
+            </form>
         </div>
 
+        {{-- YOUR EXISTING BUILDER --}}
         <div class="builder-table">
             <table>
                 <thead>
@@ -35,23 +52,18 @@
                             @foreach($products[$category] as $item)
                             <div class="selected-product">
                                 <strong class="product-name">{{ $item['product']->name }}</strong>
+
                                 @if($item['count'] > 1)
                                 <span>x{{ $item['count'] }}</span>
                                 @endif
 
-                                <form action="{{route('builder.remove', ['category' => $category, 'product' => $item["product"]->id])}}" method="post">
+                                <form action="{{ route('builder.remove', ['category' => $category, 'product' => $item['product']->id]) }}" method="post">
                                     @csrf
-                                    @Method("delete")
-                                    <button>delet</button>
+                                    @method("DELETE")
+                                    <button>delete</button>
                                 </form>
                             </div>
                             @endforeach
-
-                            @if(in_array($category, config('builder.multiple_allowed')))
-                            <a href="{{ route('components.index', ['category' => $category]) }}" class="btn">
-                                + Add another {{ ucfirst(str_replace('-', ' ', $category)) }}
-                            </a>
-                            @endif
                             @else
                             <a href="{{ route('components.index', ['category' => $category]) }}" class="check-link">
                                 + Add {{ ucfirst(str_replace('-', ' ', $category)) }}
@@ -63,7 +75,6 @@
                 </tbody>
             </table>
         </div>
-        <a href="{{ route('builder.save') }}" class="back">Save build</a>
 
     </div>
 </x-layout>

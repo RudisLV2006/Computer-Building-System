@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Builds extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+        'user_id',
+    ];
+    public function items()
+    {
+        return $this->hasMany(BuildItem::class, "build_id");
+    }
 }
