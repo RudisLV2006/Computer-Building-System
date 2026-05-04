@@ -17,7 +17,9 @@ Route::prefix('components')->name('components.')->group(function () {
 
 Route::prefix('builder')->name('builder.')->group(function () {
     Route::get('/', [BuilderController::class, 'index'])->name('index');
-    Route::post('/components/{category}/{product}', [BuilderController::class, 'storeItem'])->name('store');
+    Route::get('/builds', [BuilderController::class, 'allBuild'])->name('builds');
+    Route::post('/builds/{build}/use', [BuilderController::class, 'use'])->name('use');
+    Route::post('/components/{category}/{product}', [BuilderController::class, 'storeItem'])->name('storeItem');
     Route::delete('/components/{category}/{product}', [BuilderController::class, 'remove'])->name('remove');
     Route::get('/debug', [BuilderController::class, 'debug'])->name('debug');
     Route::middleware('auth')->group(function () {

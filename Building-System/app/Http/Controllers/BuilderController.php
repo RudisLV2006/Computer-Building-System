@@ -19,22 +19,21 @@ class BuilderController extends Controller
         return view("builder.builder", compact("categories", 'products', 'errors'));
     }
 
-    public function storeItem(string $category, string $id)
+    public function storeItem(Request $request, string $category, string $id)
     {
-
         if (!ProductTypeRegistry::exists($category)) {
-            return redirect()->back()->withError("This device type doesn't exist");
+            return redirect()->back()->withErrors("This device type doesn't exist");
         }
+
         $oldCartData = session()->get('Builder.cart');
         $cart = new Build($oldCartData);
         $cart->addItem($category, $id);
 
         $service = new CompactibilityChecker($cart);
-        $errors = $service->validate();
-        session()->put('Builder.errors', $errors);
-
+        session()->put('Builder.errors', $service->validate());
         session()->put('Builder.cart', $cart);
-        return redirect()->route('builder.index')->with('success', 'Component successfully added');
+
+        return redirect($request->return ?? route('builder.index'));
     }
     public function remove(string $category, string $id)
     {
@@ -46,6 +45,20 @@ class BuilderController extends Controller
         session()->put('Builder.cart', $cart);
         return redirect()->route('builder.index')->with('success', 'Component successfully removed');
     }
+
+    public function use(Request $request, Builds $build)
+    {
+        $cart = new Build();
+
+        foreach ($build->items as $item) {
+            for ($i = 0; $i < $item->count; $i++) {
+                $cart->addItem($item->category, $item->product_id);
+            }
+        }
+        session()->put('Builder.cart', $cart);
+
+        return redirect()->route('builder.index')->with('success', 'Component successfully added');
+    }
     public function create()
     {
         $categories = ProductTypeRegistry::all();
@@ -56,9 +69,23 @@ class BuilderController extends Controller
     }
     public function store(Request $request)
     {
+
+        $products = $request->products;
+        $categories = ProductTypeRegistry::all();
+
+        $isComplete = true;
+
+        foreach ($categories as $requiredCategory) {
+            if (!isset($products[$requiredCategory]) || empty($products[$requiredCategory])) {
+                $isComplete = false;
+                break;
+            }
+        }
+
         $build = Builds::create([
             'name' => $request->name,
             'user_id' => auth()->id(),
+            'isComplete' => $isComplete,
         ]);
         foreach ($request->products as $category => $items) {
             foreach ($items as $item) {
@@ -71,6 +98,12 @@ class BuilderController extends Controller
         }
 
         return redirect()->route('builder.index');
+    }
+
+    public function allBuild()
+    {
+        $builds = Builds::with('items')->latest()->get();
+        return view('builder.build', compact('builds'));
     }
 
     public function debug()

@@ -13,7 +13,8 @@
 <body>
     <nav>
         <a href="{{route('components.choose')}}">Products</a> |
-        <a href="{{route('builder.index')}}">Builder</a> |
+        <a href="{{route('builder.index')}}">Builder</a>
+        <a href="{{route('builder.builds')}}">Builds</a>
         @auth
         <a href="{{ route('profile.edit') }}">{{ Auth::user()->name }}</a> |
         <form method="POST" action="{{ route('logout') }}" style="display:inline">
