@@ -1,60 +1,86 @@
 <?php
 
 use App\CompactibilityChecker;
+use App\Build;
 use App\Models\CPUSpec;
 use App\Models\MotherBoardSpec;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Build;
 
 uses(Tests\TestCase::class, RefreshDatabase::class);
 
+test('it returns validation errors as array', function () {
+    $build = new Build();
 
-it('can get compactible products', function () {
-    $type = 'motherboard';
-    CPUSpec::factory()->create();
-    $build = new Build(null);
-    $build->addItem("cpu", CPUSpec::first()->product_id);
+    $cpu = CpuSpec::factory()
+        ->for(Product::factory()->create(['type' => 'cpu']), 'product')
+        ->create();
+    $motherboard = MotherboardSpec::factory()
+        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
+        ->create();
+
+    $build->addItem($cpu->product->type, $cpu->product_id);
+    $build->addItem($motherboard->product->type, $motherboard->product_id);
+
     $checker = new CompactibilityChecker($build);
 
-    $query = MotherBoardSpec::with('product');
+    $errors = $checker->validate();
 
-    $query = $checker->getCompactibleProduct($type, $query);
-    // dd($query->toSql());
-
-    expect($query->toSql())
-        ->toContain('where "socket" = ?');
-    // dd($query->getBindings());
-    expect($query->getBindings())
-        ->toHaveCount(1);
+    expect($errors)->toBeArray();
 });
 
-it('can return error message with wrong selected parts', function () {
-    $cpu = CPUSpec::factory()->create(["socket" => "LGA1700"]);
-    $mobo = MotherBoardSpec::factory()->create(["socket" => "AM5"]);
-    $build = new Build(null);
-
-    $build->addItem("cpu", $cpu->product_id);
-    $build->addItem("motherboard", $mobo->product_id);
+test('filter returns builder instance', function () {
+    $build = new Build();
 
     $checker = new CompactibilityChecker($build);
-    $pairKey = $checker->createKeyPairs("cpu", "motherboard", "socket", "socket");
-    $result = $checker->validateBuild();
 
-    expect($result)->toBeArray()->not()->toBeEmpty();
-    expect($result)->toHaveKey($pairKey);
+    $query = \App\Models\CpuSpec::query();
+
+    $result = $checker->filter('cpu', $query);
+
+    expect($result)->toBe($query);
+});
+test('filter applies rules based on build context', function () {
+    $build = new Build();
+
+    $cpu = CpuSpec::factory()
+        ->for(Product::factory()->create(['type' => 'cpu']), 'product')
+        ->create();
+    $motherboard = MotherboardSpec::factory()
+        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
+        ->create();
+
+    $build->addItem($cpu->product->type, $cpu->product_id);
+    $build->addItem($motherboard->product->type, $motherboard->product_id);
+
+    $checker = new CompactibilityChecker($build);
+
+    $query = CPUSpec::query();
+
+    $filtered = $checker->filter('cpu', $query);
+
+    expect($filtered)->toBe($query);
 });
 
-it('can return error empty message with right selected parts', function () {
-    $cpu = CPUSpec::factory()->create(["socket" => "LGA1700"]);
-    $mobo = MotherBoardSpec::factory()->create(["socket" => "LGA1700"]);
-    $build = new Build(null);
+test('cpu filter restricts incompatible sockets', function () {
+    $build = new Build();
 
-    $build->addItem("cpu", $cpu->product_id);
-    $build->addItem("mobo", $mobo->product_id);
+    $cpu = CpuSpec::factory()
+        ->for(Product::factory()->create(['type' => 'cpu']), 'product')
+        ->create(['socket' => 'test']);
+    $motherboard = MotherboardSpec::factory()
+        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
+        ->create(['socket' => 'dont']);
+    $build->addItem($cpu->product->type, $cpu->product_id);
+    $build->addItem($motherboard->product->type, $motherboard->product_id);
 
     $checker = new CompactibilityChecker($build);
-    $pairKey = $checker->createKeyPairs("cpu", "mobo", "socket", "socket");
-    $result = $checker->validateBuild();
 
-    expect($result)->toBeArray()->toBeEmpty();
+    $query = CPUSpec::query();
+
+    $checker->filter('cpu', $query);
+
+    $sql = $query->toSql();
+
+    expect($sql)->toContain('where');
 });

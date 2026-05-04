@@ -103,4 +103,9 @@ class Build
 
         return $expanded->groupBy(fn($item) => $item['product']->type);
     }
+
+    public function getItems()
+    {
+        return $this->items;
+    }
 }
