@@ -5,30 +5,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'My App' }}</title>
-
+    <title>{{ $title ?? 'PC Builder' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
     <nav>
-        <a href="{{route('components.choose')}}">Products</a> |
+        <a href="{{route('components.choose')}}">Products</a>
         <a href="{{route('builder.index')}}">Builder</a>
-        <a href="{{route('builder.builds')}}">Builds</a>
-        @auth
-        <a href="{{ route('profile.edit') }}">{{ Auth::user()->name }}</a> |
-        <form method="POST" action="{{ route('logout') }}" style="display:inline">
-            @csrf
-            <button type="submit">Logout</button>
-        </form>
-        @else
-        <a href="{{ route('login') }}">Login</a> |
-        <a href="{{ route('register') }}">Register</a>
-        @endauth
+        <a href="{{route('builder.builds')}}">Community Builds</a>
+
+        <div class="nav-auth">
+            @auth
+            <a href="{{ route('profile.edit') }}"><strong>{{ Auth::user()->name }}</strong></a>
+            <form method="POST" action="{{ route('logout') }}" style="display:inline">
+                @csrf
+                <button type="submit" class="btn-logout">Logout</button>
+            </form>
+            @else
+            <a href="{{ route('login') }}">Login</a>
+            <a href="{{ route('register') }}">Register</a>
+            @endauth
+        </div>
     </nav>
 
-    @if (Session('error'))
-    <p class="text-danger">{{ session('error') }}</p>
+    @if (session('error'))
+    <div class="alert">{{ session('error') }}</div>
     @endif
 
     <main>
@@ -36,7 +38,7 @@
     </main>
 
     <footer>
-        <p>Will be implemented</p>
+        <p>&copy; {{ date('Y') }} PC Builder App — All Rights Reserved.</p>
     </footer>
 </body>
 

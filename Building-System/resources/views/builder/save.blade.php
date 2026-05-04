@@ -1,80 +1,47 @@
-<x-layout>
+<x-layout title="Save Your Build">
     <div class="builder-container">
-
-        {{-- SAVE FORM --}}
         <div class="builder-header">
             <h1 class="builder-title">Save Build</h1>
+        </div>
 
+        <div class="save-card">
             <form action="{{ route('builder.save') }}" method="POST">
                 @csrf
-
-                <div style="margin-bottom: 15px;">
-                    <label for="name">Build Name</label>
-                    <input type="text" name="name" id="name" required placeholder="Enter build name">
+                <div style="margin-bottom: 20px;">
+                    <label for="name" style="font-weight: 700; color: var(--text-main);">Give your build a name</label>
+                    <input type="text" name="name" id="name" required placeholder="e.g. Ultimate Gaming 2026">
                 </div>
 
-                {{-- Pass selected products --}}
                 @foreach($products as $category => $items)
                 @foreach($items as $item)
-                <input type="hidden"
-                    name="products[{{ $category }}][{{ $loop->index }}][id]"
-                    value="{{ $item['product']->id }}">
-
-                <input type="hidden"
-                    name="products[{{ $category }}][{{ $loop->index }}][count]"
-                    value="{{ $item['count'] }}">
+                <input type="hidden" name="products[{{ $category }}][{{ $loop->index }}][id]" value="{{ $item['product']->id }}">
+                <input type="hidden" name="products[{{ $category }}][{{ $loop->index }}][count]" value="{{ $item['count'] }}">
                 @endforeach
                 @endforeach
 
-                <button type="submit">Save Build</button>
+                <button type="submit" class="btn-success" style="width: 100%; padding: 1rem;">
+                    Confirm & Save to Community Builds
+                </button>
             </form>
         </div>
 
-        {{-- YOUR EXISTING BUILDER --}}
-        <div class="builder-table">
+        {{-- Review Table --}}
+        <h2 style="margin-bottom: 1rem;">Review Components</h2>
+        <div class="builder-table" style="opacity: 0.7;">
             <table>
-                <thead>
-                    <tr>
-                        <th>Component</th>
-                        <th>Selection</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($categories as $category)
-                    <tr>
-                        <td>
-                            <a href="{{ route('components.index', ['category' => $category]) }}" class="part-name-link">
-                                {{ ucfirst(str_replace('-', ' ', $category)) }}
-                            </a>
-                        </td>
-                        <td>
-                            @if($products->has($category))
-                            @foreach($products[$category] as $item)
-                            <div class="selected-product">
-                                <strong class="product-name">{{ $item['product']->name }}</strong>
-
-                                @if($item['count'] > 1)
-                                <span>x{{ $item['count'] }}</span>
-                                @endif
-
-                                <form action="{{ route('builder.remove', ['category' => $category, 'product' => $item['product']->id]) }}" method="post">
-                                    @csrf
-                                    @method("DELETE")
-                                    <button>delete</button>
-                                </form>
-                            </div>
-                            @endforeach
-                            @else
-                            <a href="{{ route('components.index', ['category' => $category]) }}" class="check-link">
-                                + Add {{ ucfirst(str_replace('-', ' ', $category)) }}
-                            </a>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
+                @foreach($categories as $category)
+                @if($products->has($category))
+                <tr>
+                    <td>{{ ucfirst($category) }}</td>
+                    <td>
+                        @foreach($products[$category] as $item)
+                        {{ $item['product']->name }} (x{{ $item['count'] }}){{ !$loop->last ? ', ' : '' }}
+                        @endforeach
+                    </td>
+                </tr>
+                @endif
+                @endforeach
             </table>
         </div>
-
     </div>
 </x-layout>

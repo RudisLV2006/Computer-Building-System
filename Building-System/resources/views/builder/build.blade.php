@@ -16,6 +16,7 @@
             <div class="build-card">
                 <div class="build-card-header">
                     <strong>Build #{{ $build->id }}</strong>
+                    <strong>{{ $build->name }}</strong>
                     <span>{{ $build->created_at->format('M d, Y') }}</span>
                 </div>
 

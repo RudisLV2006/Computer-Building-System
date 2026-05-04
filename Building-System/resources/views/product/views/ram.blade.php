@@ -4,54 +4,54 @@
     <x-slot name="type">
         <span class="product-type">Random access memory</span>
     </x-slot>
+    <div class="spec-card">
+        <h2>Specifications</h2>
+        <table class="spec-table">
+            <tr>
+                <td>Manufacturer</td>
+                <td>{{ $item->manufacturer }}</td>
+            </tr>
 
-    <h2>Specifications</h2>
-    <table>
-        <tr>
-            <td>Manufacturer</td>
-            <td>{{ $item->manufacturer }}</td>
-        </tr>
+            <tr>
+                <td>Series</td>
+                <td>{{ $item->series }}</td>
+            </tr>
 
-        <tr>
-            <td>Series</td>
-            <td>{{ $item->series }}</td>
-        </tr>
+            <tr>
+                <td>Memory Type</td>
+                <td>{{ strtoupper($item->memory_type) }}</td>
+            </tr>
 
-        <tr>
-            <td>Memory Type</td>
-            <td>{{ strtoupper($item->memory_type) }}</td>
-        </tr>
+            <tr>
+                <td>Total Capacity</td>
+                <td>{{ $item->capacity_gb }} GB</td>
+            </tr>
 
-        <tr>
-            <td>Total Capacity</td>
-            <td>{{ $item->capacity_gb }} GB</td>
-        </tr>
+            <tr>
+                <td>Modules</td>
+                <td>{{ $item->modules }} × {{ $item->capacity_gb / $item->modules }} GB</td>
+            </tr>
 
-        <tr>
-            <td>Modules</td>
-            <td>{{ $item->modules }} × {{ $item->capacity_gb / $item->modules }} GB</td>
-        </tr>
+            <tr>
+                <td>Speed</td>
+                <td>{{ $item->speed_mhz }} MHz</td>
+            </tr>
 
-        <tr>
-            <td>Speed</td>
-            <td>{{ $item->speed_mhz }} MHz</td>
-        </tr>
+            @if($item->base_speed_mhz)
+            <tr>
+                <td>Base Speed</td>
+                <td>{{ $item->base_speed_mhz }} MHz</td>
+            </tr>
+            @endif
 
-        @if($item->base_speed_mhz)
-        <tr>
-            <td>Base Speed</td>
-            <td>{{ $item->base_speed_mhz }} MHz</td>
-        </tr>
-        @endif
+            <tr>
+                <td>CAS Latency</td>
+                <td>CL{{ $item->cas_latency }}</td>
+            </tr>
 
-        <tr>
-            <td>CAS Latency</td>
-            <td>CL{{ $item->cas_latency }}</td>
-        </tr>
-
-        <tr>
-            <td>Voltage</td>
-            <td>{{ $item->voltage_v }} V</td>
-        </tr>
-    </table>
+            <tr>
+                <td>Voltage</td>
+                <td>{{ $item->voltage_v }} V</td>
+            </tr>
+        </table>
 </x-category>
