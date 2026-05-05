@@ -82,7 +82,7 @@ class BuilderController extends Controller
         $isComplete = true;
 
         foreach ($categories as $requiredCategory) {
-            if (!isset($products[$requiredCategory]) || empty($products[$requiredCategory])) {
+            if (!isset($products['products'][$requiredCategory]) || empty($products['products'][$requiredCategory])) {
                 $isComplete = false;
                 break;
             }

@@ -3,89 +3,52 @@
 
 use App\Models\User;
 use App\Models\Builds;
-use App\Models\CpuSpec;
-use App\Models\MotherboardSpec;
 use App\Models\Product;
-use App\Models\RamSpec;
+use App\ProductTypeRegistry;
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-it('saglabā build ar visiem komponentiem datubāzē', function () {
+it('saglabā build un isComplete ir false, ja trūkst kategorijas', function () {
     $user = User::factory()->create();
 
-    $cpu = CpuSpec::factory()
-        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
-        ->create();
-    $motherboard = MotherboardSpec::factory()
-        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
-        ->create();
-
-    $ram = RamSpec::factory()
-        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
-        ->create();
+    // Produktam jāeksistē datubāzē!
+    $cpu = Product::factory()->create(['type' => 'cpu']);
 
     $response = $this->actingAs($user)->post('/builder/save', [
-        'name' => 'Mans spēļu dators',
+        'name' => 'Nepilns dators',
         'products' => [
-            'cpu' => [
-                ['id' => $cpu->product_id, 'count' => 1],
-            ],
-            'motherboard' => [
-                ['id' => $motherboard->product_id, 'count' => 1],
-            ],
-            'ram' => [
-                ['id' => $ram->product_id, 'count' => 2],
-            ],
+            'cpu' => [['id' => $cpu->id, 'count' => 1]],
+            // trūkst gpu, ram, psu, mobo utt.
         ],
     ]);
 
-    // Pārbauda, vai novirza uz pareizo lapu
     $response->assertRedirect(route('builder.index'));
 
-    // Pārbauda, vai Build tika saglabāts
-    expect(
-        Builds::where('name', 'Mans spēļu dators')
-            ->where('user_id', $user->id)
-            ->exists()
-    )->toBeTrue();
-
-    // Pārbauda, vai visi items tika saglabāti
     $build = Builds::where('user_id', $user->id)->first();
 
-    expect($build->items)->toHaveCount(3);
-
-    expect($build->items->where('category', 'cpu')->first())
-        ->product_id->toBe(1)
-        ->count->toBe(1);
-
-    expect($build->items->where('category', 'ram')->first())
-        ->count->toBe(2);
+    expect($build->name)->toBe('Nepilns dators');
+    expect($build->isComplete)->toBe(0);
+    expect($build->items)->toHaveCount(1);
 });
 
-it('saglabā build kā nepilnu ja trūkst kategorija', function () {
+it('isComplete ir true tikai kad visas kategorijas ir aizpildītas', function () {
     $user = User::factory()->create();
 
-    $cpu = CpuSpec::factory()
-        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
-        ->create();
-    $motherboard = MotherboardSpec::factory()
-        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
-        ->create();
+    $allCategories = ProductTypeRegistry::all();
 
-    $ram = RamSpec::factory()
-        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
-        ->create();
-
+    // Katrai kategorijai izveidojam reālu produktu datubāzē
+    $products = [];
+    foreach ($allCategories as $category) {
+        $product = Product::factory()->create(['type' => $category]);
+        $products[$category] = [['id' => $product->id, 'count' => 1]];
+    }
 
     $this->actingAs($user)->post('/builder/save', [
-        'name' => 'Dators',
-        'products' => [
-            'cpu' => [['id' => $cpu->product_id, 'count' => 1]],
-            'motherboard' => [['id' => $motherboard->product_id, 'count' => 1]],
-            'ram' => [['id' => $ram->product_id, 'count' => 2]],
-        ],
+        'name'     => 'Pilns dators',
+        'products' => $products,
     ]);
 
     $build = Builds::where('user_id', $user->id)->first();
-    expect($build->isComplete)->toBe(0);
+
+    expect($build->isComplete)->toBe(1);
 });
