@@ -1,7 +1,5 @@
-@import "tailwindcss";
 @import "./product.css";
 @import "./builder.css";
-
 /* === 1. VARIABLES === */
 :root {
     --primary: #2563eb;

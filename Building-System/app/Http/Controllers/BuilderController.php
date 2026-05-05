@@ -46,7 +46,7 @@ class BuilderController extends Controller
         return redirect()->route('builder.index')->with('success', 'Component successfully removed');
     }
 
-    public function use(Request $request, Builds $build)
+    public function use(Builds $build)
     {
         $cart = new Build();
 
@@ -70,7 +70,13 @@ class BuilderController extends Controller
     public function store(Request $request)
     {
 
-        $products = $request->products;
+        $products = $request->validate([
+            'name'                   => 'required|string|max:255',
+            'products'               => 'required|array|min:1',
+            'products.*.*.id'        => 'required|integer|exists:products,id',
+            'products.*.*.count'     => 'required|integer|min:1',
+        ]);
+
         $categories = ProductTypeRegistry::all();
 
         $isComplete = true;

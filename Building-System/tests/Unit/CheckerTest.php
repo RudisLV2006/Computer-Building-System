@@ -84,3 +84,20 @@ test('cpu filter restricts incompatible sockets', function () {
 
     expect($sql)->toContain('where');
 });
+
+test('loadProducts returns products grouped by type', function () {
+    $build = new Build();
+    $cpu = CpuSpec::factory()
+        ->for(Product::factory()->create(['type' => 'cpu']), 'product')
+        ->create();
+    $motherboard = MotherboardSpec::factory()
+        ->for(Product::factory()->create(['type' => 'motherboard']), 'product')
+        ->create();
+    $build->addItem('cpu', $cpu->product_id);
+    $build->addItem('motherboard', $motherboard->product_id);
+    $result = $build->loadProducts();
+    expect($result)->toHaveKey('cpu')
+        ->and($result)->toHaveKey('motherboard')
+        ->and($result['cpu']->first()['product']->id)->toBe($cpu->product_id)
+        ->and($result['motherboard']->first()['product']->id)->toBe($motherboard->product_id);
+});

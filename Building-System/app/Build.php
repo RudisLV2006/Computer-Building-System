@@ -69,7 +69,7 @@ class Build
     }
     public function removeItem(string $category, string $id)
     {
-        if (!isset($this->items[$category]))
+        if (!isset($this->items[$category]) || !isset($this->items[$category][$id]))
             return;
         $this->items[$category][$id]['count']--;
         if ($this->items[$category][$id]['count'] <= 0) {
