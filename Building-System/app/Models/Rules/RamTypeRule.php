@@ -60,7 +60,11 @@ class RamTypeRule extends BaseRule implements FilterRule, ValidationRule
             }
 
             $slots    = $this->build->getField('motherboard', 'memory_slots');
-            $ramCount = count($this->build->items['ram']);
+            $ramCount = 0;
+
+            foreach ($this->build->items['ram'] as $id => $values) {
+                $ramCount += $values['count'];
+            }
 
             if ($ramCount > $slots) {
                 $errors[] = "Too many RAM sticks — motherboard only supports {$slots} slots.";
